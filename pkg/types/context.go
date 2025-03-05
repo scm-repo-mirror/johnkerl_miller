@@ -2,7 +2,6 @@ package types
 
 import (
 	"bytes"
-	"container/list"
 	"strconv"
 
 	"github.com/johnkerl/miller/v6/pkg/mlrval"
@@ -82,11 +81,10 @@ func NewEndOfStreamMarker(context *Context) *RecordAndContext {
 	}
 }
 
-// TODO: comment
 // For the record-readers to update their initial context as each new record is read.
-func NewEndOfStreamMarkerList(context *Context) *list.List {
-	ell := list.New()
-	ell.PushBack(NewEndOfStreamMarker(context))
+func NewEndOfStreamMarkerList(context *Context) []*RecordAndContext {
+	ell := make([]*RecordAndContext, 1)
+	ell[0] = NewEndOfStreamMarker(context)
 	return ell
 }
 

@@ -52,7 +52,7 @@ func NewRecordReaderCSV(
 func (reader *RecordReaderCSV) Read(
 	filenames []string,
 	context types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- []*types.RecordAndContext,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -92,7 +92,7 @@ func (reader *RecordReaderCSV) processHandle(
 	handle io.Reader,
 	filename string,
 	context *types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- []*types.RecordAndContext,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -115,7 +115,7 @@ func (reader *RecordReaderCSV) processHandle(
 
 	for {
 		recordsAndContexts, eof := reader.getRecordBatch(csvRecordsChannel, errorChannel, context)
-		if recordsAndContexts.Len() > 0 {
+		if len(recordsAndContexts) > 0 {
 			readerChannel <- recordsAndContexts
 		}
 		if eof {
@@ -185,10 +185,10 @@ func (reader *RecordReaderCSV) getRecordBatch(
 	errorChannel chan error,
 	context *types.Context,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts []*types.RecordAndContext,
 	eof bool,
 ) {
-	recordsAndContexts = list.New()
+	recordsAndContexts = make([]*types.RecordAndContext, reader.recordsPerBatch)
 	dedupeFieldNames := reader.readerOptions.DedupeFieldNames
 
 	csvRecords, more := <-csvRecordsChannel
@@ -279,7 +279,7 @@ func (reader *RecordReaderCSV) getRecordBatch(
 
 		context.UpdateForInputRecord()
 
-		recordsAndContexts.PushBack(types.NewRecordAndContext(record, context))
+		recordsAndContexts = append(recordsAndContexts, types.NewRecordAndContext(record, context))
 	}
 
 	return recordsAndContexts, false
@@ -290,7 +290,7 @@ func (reader *RecordReaderCSV) getRecordBatch(
 func (reader *RecordReaderCSV) maybeConsumeComment(
 	csvRecord []string,
 	context *types.Context,
-	recordsAndContexts *list.List, // list of *types.RecordAndContext
+	recordsAndContexts []*types.RecordAndContext,
 ) bool {
 	if reader.readerOptions.CommentHandling == cli.CommentsAreData {
 		// Nothing is to be construed as a comment
@@ -323,7 +323,7 @@ func (reader *RecordReaderCSV) maybeConsumeComment(
 		csvWriter.Comma = rune(reader.ifs0)
 		csvWriter.Write(csvRecord)
 		csvWriter.Flush()
-		recordsAndContexts.PushBack(types.NewOutputString(buffer.String(), context))
+		recordsAndContexts = append(recordsAndContexts, types.NewOutputString(buffer.String(), context))
 	} else /* reader.readerOptions.CommentHandling == cli.SkipComments */ {
 		// discard entirely
 	}
