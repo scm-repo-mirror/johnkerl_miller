@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"fmt"
 	"github.com/johnkerl/miller/v6/pkg/cli"
 	"github.com/johnkerl/miller/v6/pkg/types"
@@ -143,18 +142,18 @@ import (
 // subdivides goroutines for each transformer in the chain, with intermediary
 // channels between them.
 func ChainTransformer(
-	readerRecordChannel <-chan *list.List, // list of *types.RecordAndContext
+	readerRecordChannel <-chan []*types.RecordAndContext,
 	readerDownstreamDoneChannel chan<- bool, // for mlr head -- see also stream.go
 	recordTransformers []IRecordTransformer, // not *recordTransformer since this is an interface
-	writerRecordChannel chan<- *list.List, // list of *types.RecordAndContext
+	writerRecordChannel chan<- []*types.RecordAndContext,
 	options *cli.TOptions,
 ) {
 	i := 0
 	n := len(recordTransformers)
 
-	intermediateRecordChannels := make([]chan *list.List, n-1) // list of *types.RecordAndContext
+	intermediateRecordChannels := make([]chan []*types.RecordAndContext, n-1)
 	for i = 0; i < n-1; i++ {
-		intermediateRecordChannels[i] = make(chan *list.List, 1) // list of *types.RecordAndContext
+		intermediateRecordChannels[i] = make(chan []*types.RecordAndContext, 1)
 	}
 
 	intermediateDownstreamDoneChannels := make([]chan bool, n)
@@ -199,8 +198,8 @@ func ChainTransformer(
 func runSingleTransformer(
 	recordTransformer IRecordTransformer,
 	isFirstInChain bool,
-	inputRecordChannel <-chan *list.List, // list of *types.RecordAndContext
-	outputRecordChannel chan<- *list.List, // list of *types.RecordAndContext
+	inputRecordChannel <-chan []*types.RecordAndContext,
+	outputRecordChannel chan<- []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 	options *cli.TOptions,
@@ -224,10 +223,10 @@ func runSingleTransformer(
 // TODO: comment
 // Returns true on end of record stream
 func runSingleTransformerBatch(
-	inputRecordsAndContexts *list.List, // list of types.RecordAndContext
+	inputRecordsAndContexts []*types.RecordAndContext,
 	recordTransformer IRecordTransformer,
 	isFirstInChain bool,
-	outputRecordChannel chan<- *list.List, // list of *types.RecordAndContext
+	outputRecordChannel chan<- []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 	options *cli.TOptions,
