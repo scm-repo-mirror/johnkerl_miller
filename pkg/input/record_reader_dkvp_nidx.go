@@ -55,7 +55,7 @@ func NewRecordReaderNIDX(
 func (reader *RecordReaderDKVPNIDX) Read(
 	filenames []string,
 	context types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.RecordsAndContexts,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -95,7 +95,7 @@ func (reader *RecordReaderDKVPNIDX) processHandle(
 	handle io.Reader,
 	filename string,
 	context *types.Context,
-	readerChannel chan<- *list.List,
+	readerChannel chan<- *types.RecordsAndContexts,
 	errorChannel chan<- error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -103,7 +103,7 @@ func (reader *RecordReaderDKVPNIDX) processHandle(
 	recordsPerBatch := reader.recordsPerBatch
 
 	lineReader := NewLineReader(handle, reader.readerOptions.IRS)
-	linesChannel := make(chan *list.List, recordsPerBatch)
+	linesChannel := make(chan []string, recordsPerBatch)
 	go channelizedLineReader(lineReader, linesChannel, downstreamDoneChannel, recordsPerBatch)
 
 	for {
@@ -119,14 +119,14 @@ func (reader *RecordReaderDKVPNIDX) processHandle(
 
 // TODO: comment copiously we're trying to handle slow/fast/short/long reads: tail -f, smallfile, bigfile.
 func (reader *RecordReaderDKVPNIDX) getRecordBatch(
-	linesChannel <-chan *list.List,
+	linesChannel <-chan []string,
 	errorChannel chan<- error,
 	context *types.Context,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.RecordsAndContexts,
 	eof bool,
 ) {
-	recordsAndContexts = list.New()
+	recordsAndContexts = types.NewRecordsAndContexts(100) // XXX size
 
 	lines, more := <-linesChannel
 	if !more {

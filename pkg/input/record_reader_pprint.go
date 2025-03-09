@@ -73,19 +73,19 @@ type RecordReaderPprintBarredOrMarkdown struct {
 // implicit-PPRINT-header record-batch getter.
 type recordBatchGetterPprint func(
 	reader *RecordReaderPprintBarredOrMarkdown,
-	linesChannel <-chan *list.List,
+	linesChannel <-chan []string,
 	filename string,
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.RecordsAndContexts,
 	eof bool,
 )
 
 func (reader *RecordReaderPprintBarredOrMarkdown) Read(
 	filenames []string,
 	context types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.RecordsAndContexts,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -139,7 +139,7 @@ func (reader *RecordReaderPprintBarredOrMarkdown) processHandle(
 	handle io.Reader,
 	filename string,
 	context *types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.RecordsAndContexts,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -149,7 +149,7 @@ func (reader *RecordReaderPprintBarredOrMarkdown) processHandle(
 
 	recordsPerBatch := reader.recordsPerBatch
 	lineReader := NewLineReader(handle, reader.readerOptions.IRS)
-	linesChannel := make(chan *list.List, recordsPerBatch)
+	linesChannel := make(chan []string, recordsPerBatch)
 	go channelizedLineReader(lineReader, linesChannel, downstreamDoneChannel, recordsPerBatch)
 
 	for {
@@ -165,12 +165,12 @@ func (reader *RecordReaderPprintBarredOrMarkdown) processHandle(
 
 func getRecordBatchExplicitPprintHeader(
 	reader *RecordReaderPprintBarredOrMarkdown,
-	linesChannel <-chan *list.List,
+	linesChannel <-chan *string,
 	filename string,
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.RecordsAndContexts,
 	eof bool,
 ) {
 	recordsAndContexts = list.New()
@@ -302,12 +302,12 @@ func getRecordBatchExplicitPprintHeader(
 
 func getRecordBatchImplicitPprintHeader(
 	reader *RecordReaderPprintBarredOrMarkdown,
-	linesChannel <-chan *list.List,
+	linesChannel <-chan []string,
 	filename string,
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.RecordsAndContexts,
 	eof bool,
 ) {
 	recordsAndContexts = list.New()

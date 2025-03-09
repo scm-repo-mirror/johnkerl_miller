@@ -17,12 +17,12 @@ import (
 // implicit-TSV-header record-batch getter.
 type recordBatchGetterTSV func(
 	reader *RecordReaderTSV,
-	linesChannel <-chan *list.List,
+	linesChannel <-chan []string,
 	filename string,
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.RecordsAndContexts,
 	eof bool,
 )
 
@@ -63,7 +63,7 @@ func NewRecordReaderTSV(
 func (reader *RecordReaderTSV) Read(
 	filenames []string,
 	context types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.RecordsAndContexts,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -117,7 +117,7 @@ func (reader *RecordReaderTSV) processHandle(
 	handle io.Reader,
 	filename string,
 	context *types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.RecordsAndContexts,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -127,7 +127,7 @@ func (reader *RecordReaderTSV) processHandle(
 
 	recordsPerBatch := reader.recordsPerBatch
 	lineReader := NewLineReader(handle, reader.readerOptions.IRS)
-	linesChannel := make(chan *list.List, recordsPerBatch)
+	linesChannel := make(chan []string, recordsPerBatch)
 	go channelizedLineReader(lineReader, linesChannel, downstreamDoneChannel, recordsPerBatch)
 
 	for {
@@ -143,12 +143,12 @@ func (reader *RecordReaderTSV) processHandle(
 
 func getRecordBatchExplicitTSVHeader(
 	reader *RecordReaderTSV,
-	linesChannel <-chan *list.List,
+	linesChannel <-chan []string,
 	filename string,
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.RecordsAndContexts,
 	eof bool,
 ) {
 	recordsAndContexts = list.New()
@@ -249,12 +249,12 @@ func getRecordBatchExplicitTSVHeader(
 
 func getRecordBatchImplicitTSVHeader(
 	reader *RecordReaderTSV,
-	linesChannel <-chan *list.List,
+	linesChannel <-chan []string,
 	filename string,
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.RecordsAndContexts,
 	eof bool,
 ) {
 	recordsAndContexts = list.New()

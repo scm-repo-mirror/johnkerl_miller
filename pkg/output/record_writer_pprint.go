@@ -2,7 +2,6 @@ package output
 
 import (
 	"bufio"
-	"container/list"
 	"fmt"
 	"strings"
 	"unicode/utf8"
@@ -16,27 +15,27 @@ import (
 type RecordWriterPPRINT struct {
 	writerOptions *cli.TWriterOptions
 	// Input:
-	records *list.List
+	records *types.RecordsAndContexts
 
 	// State:
 	lastJoinedHeader *string
-	batch            *list.List
+	batch            *types.RecordsAndContexts
 }
 
 func NewRecordWriterPPRINT(writerOptions *cli.TWriterOptions) (*RecordWriterPPRINT, error) {
 	return &RecordWriterPPRINT{
 		writerOptions: writerOptions,
-		records:       list.New(),
+		records:       types.NewRecordsAndContexts(100), // XXX size
 
 		lastJoinedHeader: nil,
-		batch:            list.New(),
+		batch:            types.NewRecordsAndContexts(100), // XXX size
 	}, nil
 }
 
 // ----------------------------------------------------------------
 func (writer *RecordWriterPPRINT) Write(
 	outrec *mlrval.Mlrmap,
-	_ *types.Context,
+	context *types.Context,
 	bufferedOutputStream *bufio.Writer,
 	outputIsStdout bool,
 ) error {
@@ -51,7 +50,7 @@ func (writer *RecordWriterPPRINT) Write(
 			// First output record:
 			// * New batch
 			// * No old batch to print
-			writer.batch.PushBack(outrec)
+			writer.batch.PushBack(types.NewRecordAndContext(outrec, context))
 			temp := strings.Join(outrec.GetKeys(), ",")
 			writer.lastJoinedHeader = &temp
 		} else {
@@ -70,17 +69,17 @@ func (writer *RecordWriterPPRINT) Write(
 					bufferedOutputStream.WriteString(writer.writerOptions.ORS)
 				}
 				// Start a new batch
-				writer.batch = list.New()
-				writer.batch.PushBack(outrec)
+				writer.batch = types.NewRecordsAndContexts(100) // XXX SIZE
+				writer.batch.PushBack(types.NewRecordAndContext(outrec, context))
 				writer.lastJoinedHeader = &joinedHeader
 			} else {
 				// Continue the batch
-				writer.batch.PushBack(outrec)
+				writer.batch.PushBack(types.NewRecordAndContext(outrec, context))
 			}
 		}
 
 	} else { // End of record stream
-		if writer.batch.Front() != nil {
+		if writer.batch.Len() > 0 {
 			writer.writeHeterogenousList(writer.batch, writer.writerOptions.BarredPprintOutput,
 				bufferedOutputStream, outputIsStdout)
 		}
@@ -92,7 +91,7 @@ func (writer *RecordWriterPPRINT) Write(
 // ----------------------------------------------------------------
 // Returns false if there was nothing but empty record(s), e.g. 'mlr gap -n 10'.
 func (writer *RecordWriterPPRINT) writeHeterogenousList(
-	records *list.List,
+	records *types.RecordsAndContexts,
 	barred bool,
 	bufferedOutputStream *bufio.Writer,
 	outputIsStdout bool,
@@ -100,8 +99,7 @@ func (writer *RecordWriterPPRINT) writeHeterogenousList(
 	maxWidths := make(map[string]int)
 	var maxNR int64 = 0
 
-	for e := records.Front(); e != nil; e = e.Next() {
-		outrec := e.Value.(*mlrval.Mlrmap)
+	for _, outrec := range records.Items {
 		nr := outrec.FieldCount
 		if maxNR < nr {
 			maxNR = nr
@@ -148,7 +146,7 @@ func (writer *RecordWriterPPRINT) writeHeterogenousList(
 // wye pan 5  0.5732889198020006   0.8636244699032729
 
 func (writer *RecordWriterPPRINT) writeHeterogenousListNonBarred(
-	records *list.List,
+	records *types.RecordsAndContexts,
 	maxWidths map[string]int,
 	bufferedOutputStream *bufio.Writer,
 	outputIsStdout bool,
@@ -238,7 +236,7 @@ func (writer *RecordWriterPPRINT) writeHeterogenousListNonBarred(
 // +-----+-----+----+----------------------+---------------------+
 
 func (writer *RecordWriterPPRINT) writeHeterogenousListBarred(
-	records *list.List,
+	records *types.RecordsAndContexts,
 	maxWidths map[string]int,
 	bufferedOutputStream *bufio.Writer,
 	outputIsStdout bool,

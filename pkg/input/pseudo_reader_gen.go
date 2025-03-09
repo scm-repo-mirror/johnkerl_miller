@@ -28,7 +28,7 @@ func NewPseudoReaderGen(
 func (reader *PseudoReaderGen) Read(
 	filenames []string, // ignored
 	context types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.RecordsAndContexts,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {

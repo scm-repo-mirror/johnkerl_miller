@@ -35,12 +35,12 @@ import (
 // implicit-CSV-header record-batch getter.
 type recordBatchGetterCSV func(
 	reader *RecordReaderCSVLite,
-	linesChannel <-chan *list.List,
+	linesChannel <-chan []string,
 	filename string,
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.RecordsAndContexts,
 	eof bool,
 )
 
@@ -81,7 +81,7 @@ func NewRecordReaderCSVLite(
 func (reader *RecordReaderCSVLite) Read(
 	filenames []string,
 	context types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.RecordsAndContexts,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -135,7 +135,7 @@ func (reader *RecordReaderCSVLite) processHandle(
 	handle io.Reader,
 	filename string,
 	context *types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.RecordsAndContexts,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -145,7 +145,7 @@ func (reader *RecordReaderCSVLite) processHandle(
 
 	recordsPerBatch := reader.recordsPerBatch
 	lineReader := NewLineReader(handle, reader.readerOptions.IRS)
-	linesChannel := make(chan *list.List, recordsPerBatch)
+	linesChannel := make(chan []string, recordsPerBatch)
 	go channelizedLineReader(lineReader, linesChannel, downstreamDoneChannel, recordsPerBatch)
 
 	for {
@@ -161,15 +161,15 @@ func (reader *RecordReaderCSVLite) processHandle(
 
 func getRecordBatchExplicitCSVHeader(
 	reader *RecordReaderCSVLite,
-	linesChannel <-chan *list.List,
+	linesChannel <-chan []string,
 	filename string,
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.RecordsAndContexts,
 	eof bool,
 ) {
-	recordsAndContexts = list.New()
+	recordsAndContexts = types.NewRecordsAndContexts(reader.recordsPerBatch)
 	dedupeFieldNames := reader.readerOptions.DedupeFieldNames
 
 	lines, more := <-linesChannel
@@ -284,15 +284,15 @@ func getRecordBatchExplicitCSVHeader(
 
 func getRecordBatchImplicitCSVHeader(
 	reader *RecordReaderCSVLite,
-	linesChannel <-chan *list.List,
+	linesChannel <-chan []string,
 	filename string,
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.RecordsAndContexts,
 	eof bool,
 ) {
-	recordsAndContexts = list.New()
+	recordsAndContexts = types.NewRecordsAndContexts(reader.recordsPerBatch)
 	dedupeFieldNames := reader.readerOptions.DedupeFieldNames
 
 	lines, more := <-linesChannel

@@ -2,7 +2,6 @@ package types
 
 import (
 	"bytes"
-	"container/list"
 	"strconv"
 
 	"github.com/johnkerl/miller/v6/pkg/mlrval"
@@ -55,30 +54,6 @@ func (rac *RecordAndContext) Copy() *RecordAndContext {
 	}
 }
 
-// RecordsAndContexts is a thin wrapped around a slice which functions as a list/queue.  The Items
-// attribute is exposed as public since I want iteration (at many, many callsites) to be easy.
-type RecordsAndContexts struct {
-	Items []*RecordAndContext
-}
-
-func NewRecordsAndContexts(capacity int) *RecordsAndContexts{
-	return &RecordsAndContexts{
-		make([]*RecordAndContext, capacity),
-	}
-}
-
-func (racs *RecordsAndContexts) Add(rac *RecordAndContext) {
-	racs.Items = append(racs.Items, rac)
-}
-
-func (racs *RecordsAndContexts) AddMultiple(mracs []*RecordAndContext) {
-	racs.Items = append(racs.Items, mracs...)
-}
-
-func (racs *RecordsAndContexts) Clear() {
-	racs.Items = racs.Items[0: 0: cap(racs.Items)]
-}
-
 // For print/dump/etc to insert strings sequenced into the record-output
 // stream.  This avoids race conditions between different goroutines printing
 // to stdout: we have a single designated goroutine printing to stdout. This
@@ -108,8 +83,8 @@ func NewEndOfStreamMarker(context *Context) *RecordAndContext {
 
 // TODO: comment
 // For the record-readers to update their initial context as each new record is read.
-func NewEndOfStreamMarkerList(context *Context) *list.List {
-	ell := list.New()
+func NewEndOfStreamMarkerList(context *Context) *RecordsAndContexts {
+	ell := NewRecordsAndContexts(1)
 	ell.PushBack(NewEndOfStreamMarker(context))
 	return ell
 }

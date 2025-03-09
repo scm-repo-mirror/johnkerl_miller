@@ -1,7 +1,6 @@
 package input
 
 import (
-	"container/list"
 	"fmt"
 	"io"
 	"os"
@@ -33,14 +32,14 @@ type RecordReaderXTAB struct {
 // 500 or so). This struct helps us keep each stanza's comment lines along with
 // the stanza they originated in.
 type tStanza struct {
-	dataLines    *list.List
-	commentLines *list.List
+	dataLines    []string
+	commentLines []string
 }
 
 func newStanza() *tStanza {
 	return &tStanza{
-		dataLines:    list.New(),
-		commentLines: list.New(),
+		dataLines:    make([]string, 100), // XXX SIZE
+		commentLines: make([]string, 100), // XXX SIZE
 	}
 }
 
@@ -58,7 +57,7 @@ func NewRecordReaderXTAB(
 func (reader *RecordReaderXTAB) Read(
 	filenames []string,
 	context types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.RecordsAndContexts,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -98,7 +97,7 @@ func (reader *RecordReaderXTAB) processHandle(
 	handle io.Reader,
 	filename string,
 	context *types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.RecordsAndContexts,
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -108,7 +107,7 @@ func (reader *RecordReaderXTAB) processHandle(
 	// XTAB uses repeated IFS, rather than IRS, to delimit records
 	lineReader := NewLineReader(handle, reader.readerOptions.IFS)
 
-	stanzasChannel := make(chan *list.List, recordsPerBatch)
+	stanzasChannel := make(chan *tStanza, recordsPerBatch)
 	go channelizedStanzaScanner(lineReader, reader.readerOptions, stanzasChannel, downstreamDoneChannel,
 		recordsPerBatch)
 
@@ -140,7 +139,7 @@ func (reader *RecordReaderXTAB) processHandle(
 func channelizedStanzaScanner(
 	lineReader ILineReader,
 	readerOptions *cli.TReaderOptions,
-	stanzasChannel chan<- *list.List, // list of list of string
+	stanzasChannel chan<- []tStanza,
 	downstreamDoneChannel <-chan bool, // for mlr head
 	recordsPerBatch int64,
 ) {
@@ -226,7 +225,7 @@ func channelizedStanzaScanner(
 		stanzas.PushBack(stanza)
 	}
 
-	stanzasChannel <- stanzas
+	stringtanzasChannel <- stanzas
 	close(stanzasChannel) // end-of-stream marker
 }
 
