@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"strings"
@@ -198,7 +197,7 @@ func NewTransformerHistogram(
 
 func (tr *TransformerHistogram) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -209,7 +208,7 @@ func (tr *TransformerHistogram) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerHistogram) transformNonAuto(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -250,7 +249,7 @@ func (tr *TransformerHistogram) ingestNonAuto(
 
 func (tr *TransformerHistogram) emitNonAuto(
 	endOfStreamContext *types.Context,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	countFieldNames := make(map[string]string)
 	for _, valueFieldName := range tr.valueFieldNames {
@@ -282,7 +281,7 @@ func (tr *TransformerHistogram) emitNonAuto(
 // ----------------------------------------------------------------
 func (tr *TransformerHistogram) transformAuto(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -309,7 +308,7 @@ func (tr *TransformerHistogram) ingestAuto(
 
 func (tr *TransformerHistogram) emitAuto(
 	endOfStreamContext *types.Context,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	haveLoHi := false
 	lo := 0.0

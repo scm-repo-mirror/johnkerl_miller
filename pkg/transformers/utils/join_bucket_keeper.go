@@ -108,7 +108,6 @@
 package utils
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"strings"
@@ -126,7 +125,7 @@ type JoinBucketKeeper struct {
 	// For streaming through the left-side file
 	recordReader  input.IRecordReader
 	context       *types.Context
-	readerChannel <-chan *list.List // list of *types.RecordAndContext
+	readerChannel <-chan *types.List[*types.RecordAndContext]
 	errorChannel  chan error
 	// TODO: merge with leof flag
 	recordReaderDone bool
@@ -181,7 +180,7 @@ func NewJoinBucketKeeper(
 	initialContext.UpdateForStartOfFile(leftFileName)
 
 	// Set up channels for the record-reader
-	readerChannel := make(chan *list.List, 2) // list of *types.RecordAndContext
+	readerChannel := make(chan *types.List[*types.RecordAndContext], 2)
 	errorChannel := make(chan error, 1)
 	downstreamDoneChannel := make(chan bool, 1)
 
@@ -533,7 +532,7 @@ func (keeper *JoinBucketKeeper) markRemainingsAsUnpaired() {
 // ----------------------------------------------------------------
 // TODO: comment
 func (keeper *JoinBucketKeeper) OutputAndReleaseLeftUnpaireds(
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	for {
 		element := keeper.leftUnpaireds.Front()
@@ -547,7 +546,7 @@ func (keeper *JoinBucketKeeper) OutputAndReleaseLeftUnpaireds(
 }
 
 func (keeper *JoinBucketKeeper) ReleaseLeftUnpaireds(
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	for {
 		element := keeper.leftUnpaireds.Front()
@@ -577,7 +576,7 @@ func (keeper *JoinBucketKeeper) readRecord() *types.RecordAndContext {
 	case leftrecsAndContexts := <-keeper.readerChannel:
 		// TODO: temp
 		lib.InternalCodingErrorIf(leftrecsAndContexts.Len() != 1)
-		leftrecAndContext := leftrecsAndContexts.Front().Value.(*types.RecordAndContext)
+		leftrecAndContext := leftrecsAndContexts.Front()
 		leftrecAndContext.Record = KeepLeftFieldNames(leftrecAndContext.Record, keeper.leftKeepFieldNameSet)
 		if leftrecAndContext.EndOfStream { // end-of-stream marker
 			keeper.recordReaderDone = true

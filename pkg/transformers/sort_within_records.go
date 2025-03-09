@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"strings"
@@ -106,7 +105,7 @@ func NewTransformerSortWithinRecords(
 
 func (tr *TransformerSortWithinRecords) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -117,7 +116,7 @@ func (tr *TransformerSortWithinRecords) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerSortWithinRecords) transformNonrecursively(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -131,7 +130,7 @@ func (tr *TransformerSortWithinRecords) transformNonrecursively(
 // ----------------------------------------------------------------
 func (tr *TransformerSortWithinRecords) transformRecursively(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

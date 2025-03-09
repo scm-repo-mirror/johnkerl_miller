@@ -5,7 +5,6 @@
 package repl
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"strings"
@@ -236,7 +235,7 @@ func (repl *Repl) openFiles(filenames []string) {
 	// Remember for :reopen
 	repl.options.FileNames = filenames
 
-	repl.readerChannel = make(chan *list.List, 2) // list of *types.RecordAndContext
+	repl.readerChannel = make(chan *types.List[*types.RecordAndContext], 2)
 	repl.errorChannel = make(chan error, 1)
 	repl.downstreamDoneChannel = make(chan bool, 1)
 
@@ -288,7 +287,7 @@ func handleRead(repl *Repl, args []string) bool {
 		return true
 	}
 
-	var recordsAndContexts *list.List // list of *types.RecordAndContext
+	var recordsAndContexts *types.List[*types.RecordAndContext]
 	var err error = nil
 
 	select {
@@ -308,7 +307,7 @@ func handleRead(repl *Repl, args []string) bool {
 	if recordsAndContexts != nil {
 		// TODO: comment and make very clear we've set this all up to batch by 1 for the REPL
 		lib.InternalCodingErrorIf(recordsAndContexts.Len() != 1)
-		recordAndContext := recordsAndContexts.Front().Value.(*types.RecordAndContext)
+		recordAndContext := recordsAndContexts.Front()
 
 		skipOrProcessRecord(
 			repl,
@@ -436,7 +435,7 @@ func handleProcess(repl *Repl, args []string) bool {
 
 // ----------------------------------------------------------------
 func handleSkipOrProcessN(repl *Repl, n int64, processingNotSkipping bool) {
-	var recordsAndContexts *list.List // list of *types.RecordAndContext
+	var recordsAndContexts *types.List[*types.RecordAndContext]
 	var err error = nil
 
 	for i := int64(1); i <= n; i++ {
@@ -456,7 +455,7 @@ func handleSkipOrProcessN(repl *Repl, n int64, processingNotSkipping bool) {
 		if recordsAndContexts != nil {
 			// TODO: comment and make very clear we've set this all up to batch by 1 for the REPL
 			lib.InternalCodingErrorIf(recordsAndContexts.Len() != 1)
-			recordAndContext := recordsAndContexts.Front().Value.(*types.RecordAndContext)
+			recordAndContext := recordsAndContexts.Front()
 
 			shouldBreak := skipOrProcessRecord(
 				repl,
@@ -496,7 +495,7 @@ func handleSkipOrProcessUntil(repl *Repl, dslString string, processingNotSkippin
 		return
 	}
 
-	var recordsAndContexts *list.List // list of *types.RecordAndContext
+	var recordsAndContexts *types.List[*types.RecordAndContext]
 
 	for {
 		doubleBreak := false
@@ -521,7 +520,7 @@ func handleSkipOrProcessUntil(repl *Repl, dslString string, processingNotSkippin
 		if recordsAndContexts != nil {
 			// TODO: comment and make very clear we've set this all up to batch by 1 for the REPL
 			lib.InternalCodingErrorIf(recordsAndContexts.Len() != 1)
-			recordAndContext := recordsAndContexts.Front().Value.(*types.RecordAndContext)
+			recordAndContext := recordsAndContexts.Front()
 
 			shouldBreak := skipOrProcessRecord(
 				repl,

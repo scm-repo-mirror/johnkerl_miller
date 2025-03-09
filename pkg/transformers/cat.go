@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"strings"
@@ -165,7 +164,7 @@ func NewTransformerCat(
 
 func (tr *TransformerCat) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -181,7 +180,7 @@ func (tr *TransformerCat) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerCat) simpleCat(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -199,7 +198,7 @@ func (tr *TransformerCat) simpleCat(
 // ----------------------------------------------------------------
 func (tr *TransformerCat) countersUngrouped(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -222,7 +221,7 @@ func (tr *TransformerCat) countersUngrouped(
 // ----------------------------------------------------------------
 func (tr *TransformerCat) countersGrouped(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

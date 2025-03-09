@@ -5,15 +5,14 @@
 package utils
 
 import (
-	"container/list"
-
 	"github.com/johnkerl/miller/v6/pkg/mlrval"
+	"github.com/johnkerl/miller/v6/pkg/types"
 )
 
 // ----------------------------------------------------------------
 type JoinBucket struct {
 	leftFieldValues    []*mlrval.Mlrval
-	RecordsAndContexts *list.List
+	RecordsAndContexts *types.List[*types.RecordAndContext]
 	WasPaired          bool
 }
 

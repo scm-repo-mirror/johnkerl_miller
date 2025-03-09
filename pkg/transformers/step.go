@@ -68,7 +68,6 @@
 package transformers
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"strings"
@@ -350,7 +349,7 @@ func NewTransformerStep(
 
 func (tr *TransformerStep) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -381,7 +380,7 @@ func (tr *TransformerStep) Transform(
 // delayed-input records in the order in which they were received.
 func (tr *TransformerStep) handleRecord(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	inrec := inrecAndContext.Record
 
@@ -466,7 +465,7 @@ func (tr *TransformerStep) handleRecord(
 // delayed-input records in the order in which they were received.
 func (tr *TransformerStep) handleDrainRecord(
 	logEntry *tStepLogEntry,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	inrecAndContext := logEntry.recordAndContext
 	inrec := inrecAndContext.Record

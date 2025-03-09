@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"strings"
@@ -361,7 +360,7 @@ func NewTransformerJoin(
 
 func (tr *TransformerJoin) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -375,7 +374,7 @@ func (tr *TransformerJoin) Transform(
 // matching each right record against those.
 func (tr *TransformerJoin) transformHalfStreaming(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -427,7 +426,7 @@ func (tr *TransformerJoin) transformHalfStreaming(
 // ----------------------------------------------------------------
 func (tr *TransformerJoin) transformDoublyStreaming(
 	rightRecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -496,7 +495,7 @@ func (tr *TransformerJoin) ingestLeftFile() {
 	initialContext.UpdateForStartOfFile(tr.opts.leftFileName)
 
 	// Set up channels for the record-reader.
-	readerChannel := make(chan *list.List, 2) // list of *types.RecordAndContext
+	readerChannel := make(chan *types.List[*types.RecordAndContext], 2)
 	errorChannel := make(chan error, 1)
 	downstreamDoneChannel := make(chan bool, 1)
 
@@ -520,7 +519,7 @@ func (tr *TransformerJoin) ingestLeftFile() {
 		case leftrecsAndContexts := <-readerChannel:
 			// TODO: temp for batch-reader refactor
 			lib.InternalCodingErrorIf(leftrecsAndContexts.Len() != 1)
-			leftrecAndContext := leftrecsAndContexts.Front().Value.(*types.RecordAndContext)
+			leftrecAndContext := leftrecsAndContexts.Front()
 			leftrecAndContext.Record = utils.KeepLeftFieldNames(leftrecAndContext.Record, tr.leftKeepFieldNameSet)
 
 			if leftrecAndContext.EndOfStream {
@@ -560,7 +559,7 @@ func (tr *TransformerJoin) ingestLeftFile() {
 func (tr *TransformerJoin) formAndEmitPairs(
 	leftRecordsAndContexts *list.List,
 	rightRecordAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	////fmt.Println("-- pairs start") // VERBOSE
 	// Loop over each to-be-paired-with record from the left file.
@@ -626,7 +625,7 @@ func (tr *TransformerJoin) formAndEmitPairs(
 // in the second category.
 
 func (tr *TransformerJoin) emitLeftUnpairables(
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	// Loop over each to-be-paired-with record from the left file.
 	for pe := tr.leftUnpairableRecordsAndContexts.Front(); pe != nil; pe = pe.Next() {
@@ -636,7 +635,7 @@ func (tr *TransformerJoin) emitLeftUnpairables(
 }
 
 func (tr *TransformerJoin) emitLeftUnpairedBuckets(
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	for pe := tr.leftBucketsByJoinFieldValues.Head; pe != nil; pe = pe.Next {
 		bucket := pe.Value.(*utils.JoinBucket)

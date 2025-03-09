@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"strings"
@@ -177,7 +176,7 @@ func caseSentenceFunc(input string) string {
 
 func (tr *TransformerCase) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -196,7 +195,7 @@ func (tr *TransformerCase) Transform(
 
 func (tr *TransformerCase) transformKeysOnly(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	_ <-chan bool,
 	__ chan<- bool,
 ) {
@@ -216,7 +215,7 @@ func (tr *TransformerCase) transformKeysOnly(
 
 func (tr *TransformerCase) transformValuesOnly(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	_ <-chan bool,
 	__ chan<- bool,
 ) {
@@ -234,7 +233,7 @@ func (tr *TransformerCase) transformValuesOnly(
 
 func (tr *TransformerCase) transformKeysAndValues(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	_ <-chan bool,
 	__ chan<- bool,
 ) {

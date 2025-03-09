@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"strings"
@@ -115,7 +114,7 @@ func NewTransformerUnspace(
 
 func (tr *TransformerUnspace) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -134,7 +133,7 @@ func (tr *TransformerUnspace) Transform(
 
 func (tr *TransformerUnspace) transformKeysOnly(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	_ <-chan bool,
 	__ chan<- bool,
 ) {
@@ -150,7 +149,7 @@ func (tr *TransformerUnspace) transformKeysOnly(
 
 func (tr *TransformerUnspace) transformValuesOnly(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	_ <-chan bool,
 	__ chan<- bool,
 ) {
@@ -166,7 +165,7 @@ func (tr *TransformerUnspace) transformValuesOnly(
 
 func (tr *TransformerUnspace) transformKeysAndValues(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	_ <-chan bool,
 	__ chan<- bool,
 ) {

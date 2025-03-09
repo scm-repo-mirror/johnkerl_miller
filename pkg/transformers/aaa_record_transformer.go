@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"os"
 
 	"github.com/johnkerl/miller/v6/pkg/cli"

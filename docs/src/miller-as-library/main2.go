@@ -3,7 +3,6 @@ package main
 
 import (
 	"bufio"
-	"container/list"
 	"fmt"
 	"os"
 
@@ -67,7 +66,7 @@ func run_custom_processor(
 	}
 
 	// Set up the channels for the record-reader.
-	readerChannel := make(chan *list.List, 2) // list of *types.RecordAndContext
+	readerChannel := make(chan *types.List[*types.RecordAndContext], 2)
 	inputErrorChannel := make(chan error, 1)
 	// Not needed in this example
 	readerDownstreamDoneChannel := make(chan bool, 1)

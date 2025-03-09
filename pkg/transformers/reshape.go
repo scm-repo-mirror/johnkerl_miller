@@ -28,7 +28,6 @@ package transformers
 // 15 2009-01-05     Z  0.09719105
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"regexp"
@@ -292,7 +291,7 @@ func NewTransformerReshape(
 
 func (tr *TransformerReshape) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -303,7 +302,7 @@ func (tr *TransformerReshape) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerReshape) wideToLongNoRegex(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -342,7 +341,7 @@ func (tr *TransformerReshape) wideToLongNoRegex(
 // ----------------------------------------------------------------
 func (tr *TransformerReshape) wideToLongRegex(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -384,7 +383,7 @@ func (tr *TransformerReshape) wideToLongRegex(
 // ----------------------------------------------------------------
 func (tr *TransformerReshape) longToWide(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

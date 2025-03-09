@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"fmt"
 	"github.com/johnkerl/miller/v6/pkg/cli"
 	"github.com/johnkerl/miller/v6/pkg/types"
@@ -232,12 +231,10 @@ func runSingleTransformerBatch(
 	outputDownstreamDoneChannel chan<- bool,
 	options *cli.TOptions,
 ) bool {
-	outputRecordsAndContexts := list.New()
+	outputRecordsAndContexts := types.NewList[*types.RecordAndContext](100) // XXX SIZint(reader.recordsPerBatch))D
 	done := false
 
-	for e := inputRecordsAndContexts.Front(); e != nil; e = e.Next() {
-		inputRecordAndContext := e.Value.(*types.RecordAndContext)
-
+	for _, inputRecordAndContext := range inputRecordsAndContexts.Items {
 		// --nr-progress-mod
 		// TODO: function-pointer this away to reduce instruction count in the
 		// normal case which it isn't used at all. No need to test if {static thing} != 0

@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"container/list"
 	"errors"
 	"fmt"
 	"os"
@@ -60,8 +59,8 @@ func convert_csv_to_json(fileNames []string) error {
 	recordTransformers := []transformers.IRecordTransformer{cat}
 
 	// Set up the reader-to-transformer and transformer-to-writer channels.
-	readerChannel := make(chan *list.List, 2) // list of *types.RecordAndContext
-	writerChannel := make(chan *list.List, 1) // list of *types.RecordAndContext
+	readerChannel := make(chan *types.List[*types.RecordAndContext], 2)
+	writerChannel := make(chan *types.List[*types.RecordAndContext], 1)
 
 	// We're done when a fatal error is registered on input (file not found,
 	// etc) or when the record-writer has written all its output. We use

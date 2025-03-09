@@ -2,7 +2,6 @@ package transformers
 
 import (
 	"bytes"
-	"container/list"
 	"fmt"
 	"os"
 	"strings"
@@ -207,7 +206,7 @@ func NewTransformerBar(
 
 func (tr *TransformerBar) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -218,7 +217,7 @@ func (tr *TransformerBar) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerBar) processNoAuto(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -253,7 +252,7 @@ func (tr *TransformerBar) processNoAuto(
 // ----------------------------------------------------------------
 func (tr *TransformerBar) processAuto(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

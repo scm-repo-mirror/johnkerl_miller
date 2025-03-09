@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"regexp"
@@ -202,7 +201,7 @@ func NewTransformerReorder(
 
 func (tr *TransformerReorder) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -219,7 +218,7 @@ func (tr *TransformerReorder) Transform(
 
 func (tr *TransformerReorder) reorderToStartNoRegex(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	inrec := inrecAndContext.Record
 	for _, fieldName := range tr.fieldNames {
@@ -230,7 +229,7 @@ func (tr *TransformerReorder) reorderToStartNoRegex(
 
 func (tr *TransformerReorder) reorderToStartWithRegex(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	inrec := inrecAndContext.Record
 
@@ -262,7 +261,7 @@ func (tr *TransformerReorder) reorderToStartWithRegex(
 
 func (tr *TransformerReorder) reorderToEndNoRegex(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	inrec := inrecAndContext.Record
 	for _, fieldName := range tr.fieldNames {
@@ -274,7 +273,7 @@ func (tr *TransformerReorder) reorderToEndNoRegex(
 
 func (tr *TransformerReorder) reorderToEndWithRegex(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	inrec := inrecAndContext.Record
 	outrec := mlrval.NewMlrmapAsRecord()
@@ -305,7 +304,7 @@ func (tr *TransformerReorder) reorderToEndWithRegex(
 
 func (tr *TransformerReorder) reorderBeforeOrAfterNoRegex(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	inrec := inrecAndContext.Record
 	if inrec.Get(tr.centerFieldName) == nil {
@@ -362,7 +361,7 @@ func (tr *TransformerReorder) reorderBeforeOrAfterNoRegex(
 
 func (tr *TransformerReorder) reorderBeforeOrAfterWithRegex(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 	inrec := inrecAndContext.Record
 	if inrec.Get(tr.centerFieldName) == nil {

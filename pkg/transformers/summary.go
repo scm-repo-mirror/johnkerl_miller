@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"fmt"
 	"os"
 	"strings"
@@ -292,7 +291,7 @@ func NewTransformerSummary(
 
 func (tr *TransformerSummary) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -351,7 +350,7 @@ func (tr *TransformerSummary) ingest(
 
 func (tr *TransformerSummary) emit(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
 
 	for pe := tr.fieldSummaries.Head; pe != nil; pe = pe.Next {
@@ -393,7 +392,7 @@ func (tr *TransformerSummary) emit(
 
 func (tr *TransformerSummary) emitTransposed(
 	inrecAndContext *types.RecordAndContext,
-	oracs *list.List, // list of *types.RecordAndContext
+	oracs *types.List[*types.RecordAndContext],
 ) {
 	octx := &inrecAndContext.Context
 
@@ -431,7 +430,7 @@ func (tr *TransformerSummary) emitTransposed(
 // maybeEmitAccumulatorTransposed is a helper method for emitTransposed,
 // for "count", "sum", "mean", etc.
 func (tr *TransformerSummary) maybeEmitAccumulatorTransposed(
-	oracs *list.List, // list of *types.RecordAndContext
+	oracs *types.List[*types.RecordAndContext],
 	octx *types.Context,
 	summarizerName string,
 ) {
@@ -449,7 +448,7 @@ func (tr *TransformerSummary) maybeEmitAccumulatorTransposed(
 // maybeEmitPercentileNameTransposed is a helper method for emitTransposed,
 // for "median", "iqr", "uof", etc.
 func (tr *TransformerSummary) maybeEmitPercentileNameTransposed(
-	oracs *list.List, // list of *types.RecordAndContext
+	oracs *types.List[*types.RecordAndContext],
 	octx *types.Context,
 	summarizerName string,
 ) {

@@ -1,7 +1,6 @@
 package transformers
 
 import (
-	"container/list"
 	"errors"
 	"fmt"
 	"os"
@@ -192,7 +191,7 @@ func NewTransformerFraction(
 
 func (tr *TransformerFraction) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
