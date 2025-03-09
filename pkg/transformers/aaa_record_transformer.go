@@ -14,7 +14,7 @@ import (
 type IRecordTransformer interface {
 	Transform(
 		inrecAndContext *types.RecordAndContext,
-		outputRecordsAndContexts *types.RecordsAndContexts,
+		outputRecordsAndContexts *types.List[*types.RecordAndContext],
 		inputDownstreamDoneChannel <-chan bool,
 		outputDownstreamDoneChannel chan<- bool,
 	)
@@ -22,7 +22,7 @@ type IRecordTransformer interface {
 
 type RecordTransformerFunc func(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *types.RecordsAndContexts,
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 )
@@ -30,7 +30,7 @@ type RecordTransformerFunc func(
 // Used within some verbs
 type RecordTransformerHelperFunc func(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *types.RecordsAndContexts,
+	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 )
 
 type TransformerUsageFunc func(

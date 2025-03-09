@@ -10,7 +10,7 @@ import (
 )
 
 func ChannelWriter(
-	writerChannel <-chan *types.RecordsAndContexts,
+	writerChannel <-chan *types.List[*types.RecordAndContext],
 	recordWriter IRecordWriter,
 	writerOptions *cli.TWriterOptions,
 	doneChannel chan<- bool,
@@ -44,7 +44,7 @@ func ChannelWriter(
 // TODO: comment
 // Returns true on end of record stream
 func channelWriterHandleBatch(
-	recordsAndContexts *types.RecordsAndContexts,
+	recordsAndContexts *types.List[*types.RecordAndContext],
 	recordWriter IRecordWriter,
 	writerOptions *cli.TWriterOptions,
 	dataProcessingErrorChannel chan<- bool,

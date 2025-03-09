@@ -83,8 +83,8 @@ func NewEndOfStreamMarker(context *Context) *RecordAndContext {
 
 // TODO: comment
 // For the record-readers to update their initial context as each new record is read.
-func NewEndOfStreamMarkerList(context *Context) *RecordsAndContexts {
-	ell := NewRecordsAndContexts(1)
+func NewEndOfStreamMarkerList(context *Context) *List[*RecordAndContext] {
+	ell := NewList[*RecordAndContext](1)
 	ell.PushBack(NewEndOfStreamMarker(context))
 	return ell
 }

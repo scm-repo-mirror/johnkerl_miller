@@ -3,7 +3,6 @@
 package input
 
 import (
-	"container/list"
 	"io"
 	"strconv"
 	"strings"
@@ -55,7 +54,7 @@ func NewRecordReaderNIDX(
 func (reader *RecordReaderDKVPNIDX) Read(
 	filenames []string,
 	context types.Context,
-	readerChannel chan<- *types.RecordsAndContexts,
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -95,7 +94,7 @@ func (reader *RecordReaderDKVPNIDX) processHandle(
 	handle io.Reader,
 	filename string,
 	context *types.Context,
-	readerChannel chan<- *types.RecordsAndContexts,
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan<- error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -123,19 +122,17 @@ func (reader *RecordReaderDKVPNIDX) getRecordBatch(
 	errorChannel chan<- error,
 	context *types.Context,
 ) (
-	recordsAndContexts *types.RecordsAndContexts,
+	recordsAndContexts *types.List[*types.RecordAndContext],
 	eof bool,
 ) {
-	recordsAndContexts = types.NewRecordsAndContexts(100) // XXX size
+	recordsAndContexts = types.NewList[*types.RecordAndContext](100) // XXX size
 
 	lines, more := <-linesChannel
 	if !more {
 		return recordsAndContexts, true
 	}
 
-	for e := lines.Front(); e != nil; e = e.Next() {
-		line := e.Value.(string)
-
+	for _, line := range lines {
 		// Check for comments-in-data feature
 		// TODO: function-pointer this away
 		if reader.readerOptions.CommentHandling != cli.CommentsAreData {

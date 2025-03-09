@@ -215,7 +215,7 @@ type FileOutputHandler struct {
 	// print and dump variants call WriteString.
 	recordWriterOptions  *cli.TWriterOptions
 	recordWriter         IRecordWriter
-	recordOutputChannel  chan *types.RecordsAndContexts
+	recordOutputChannel  chan *types.List[*types.RecordAndContext]
 	recordDoneChannel    chan bool
 	recordErroredChannel chan bool
 }
@@ -351,7 +351,7 @@ func (handler *FileOutputHandler) WriteRecordAndContext(
 	}
 
 	// TODO: myybe refactor to batch better
-	ell := types.NewRecordsAndContexts(1)
+	ell := types.NewList[*types.RecordAndContext](1) // XXX ctor from single
 	ell.PushBack(outrecAndContext)
 	handler.recordOutputChannel <- ell
 	return nil
@@ -368,7 +368,7 @@ func (handler *FileOutputHandler) setUpRecordWriter() error {
 	}
 	handler.recordWriter = recordWriter
 
-	handler.recordOutputChannel = make(chan *types.RecordsAndContexts, 1)
+	handler.recordOutputChannel = make(chan *types.List[*types.RecordAndContext], 1)
 	handler.recordDoneChannel = make(chan bool, 1)
 	handler.recordErroredChannel = make(chan bool, 1)
 

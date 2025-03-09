@@ -1,7 +1,6 @@
 package input
 
 import (
-	"container/list"
 	"fmt"
 	"io"
 	"strconv"
@@ -22,7 +21,7 @@ type recordBatchGetterTSV func(
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *types.RecordsAndContexts,
+	recordsAndContexts *types.List[*types.RecordAndContext],
 	eof bool,
 )
 
@@ -63,7 +62,7 @@ func NewRecordReaderTSV(
 func (reader *RecordReaderTSV) Read(
 	filenames []string,
 	context types.Context,
-	readerChannel chan<- *types.RecordsAndContexts,
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -117,7 +116,7 @@ func (reader *RecordReaderTSV) processHandle(
 	handle io.Reader,
 	filename string,
 	context *types.Context,
-	readerChannel chan<- *types.RecordsAndContexts,
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -148,10 +147,10 @@ func getRecordBatchExplicitTSVHeader(
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *types.RecordsAndContexts,
+	recordsAndContexts *types.List[*types.RecordAndContext],
 	eof bool,
 ) {
-	recordsAndContexts = list.New()
+	recordsAndContexts = types.NewList[*types.RecordAndContext](int(reader.recordsPerBatch))
 	dedupeFieldNames := reader.readerOptions.DedupeFieldNames
 
 	lines, more := <-linesChannel
@@ -159,9 +158,7 @@ func getRecordBatchExplicitTSVHeader(
 		return recordsAndContexts, true
 	}
 
-	for e := lines.Front(); e != nil; e = e.Next() {
-		line := e.Value.(string)
-
+	for _, line := range lines {
 		reader.inputLineNumber++
 
 		// Check for comments-in-data feature
@@ -254,10 +251,10 @@ func getRecordBatchImplicitTSVHeader(
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *types.RecordsAndContexts,
+	recordsAndContexts *types.List[*types.RecordAndContext],
 	eof bool,
 ) {
-	recordsAndContexts = list.New()
+	recordsAndContexts = types.NewList[*types.RecordAndContext](int(reader.recordsPerBatch))
 	dedupeFieldNames := reader.readerOptions.DedupeFieldNames
 
 	lines, more := <-linesChannel
@@ -265,9 +262,7 @@ func getRecordBatchImplicitTSVHeader(
 		return recordsAndContexts, true
 	}
 
-	for e := lines.Front(); e != nil; e = e.Next() {
-		line := e.Value.(string)
-
+	for _, line := range lines {
 		reader.inputLineNumber++
 
 		// Check for comments-in-data feature

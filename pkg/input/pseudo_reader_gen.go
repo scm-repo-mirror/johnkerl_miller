@@ -1,7 +1,6 @@
 package input
 
 import (
-	"container/list"
 	"fmt"
 
 	"github.com/johnkerl/miller/v6/pkg/bifs"
@@ -28,7 +27,7 @@ func NewPseudoReaderGen(
 func (reader *PseudoReaderGen) Read(
 	filenames []string, // ignored
 	context types.Context,
-	readerChannel chan<- *types.RecordsAndContexts,
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -38,7 +37,7 @@ func (reader *PseudoReaderGen) Read(
 
 func (reader *PseudoReaderGen) process(
 	context *types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -71,7 +70,7 @@ func (reader *PseudoReaderGen) process(
 	key := reader.readerOptions.GeneratorOptions.FieldName
 	value := start.Copy()
 
-	recordsAndContexts := list.New()
+	recordsAndContexts := types.NewList[*types.RecordAndContext](int(recordsPerBatch))
 
 	eof := false
 	for !eof {
@@ -88,7 +87,7 @@ func (reader *PseudoReaderGen) process(
 
 		if int64(recordsAndContexts.Len()) >= recordsPerBatch {
 			readerChannel <- recordsAndContexts
-			recordsAndContexts = list.New()
+			recordsAndContexts = types.NewList[*types.RecordAndContext](int(recordsPerBatch))
 
 			// See if downstream processors will be ignoring further data (e.g.
 			// mlr head).  If so, stop reading. This makes 'mlr head hugefile'

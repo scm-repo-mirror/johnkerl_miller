@@ -19,7 +19,6 @@ package input
 //            3,4,5,6               3,4,5
 
 import (
-	"container/list"
 	"fmt"
 	"io"
 	"strconv"
@@ -40,7 +39,7 @@ type recordBatchGetterCSV func(
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *types.RecordsAndContexts,
+	recordsAndContexts *types.List[*types.RecordAndContext],
 	eof bool,
 )
 
@@ -81,7 +80,7 @@ func NewRecordReaderCSVLite(
 func (reader *RecordReaderCSVLite) Read(
 	filenames []string,
 	context types.Context,
-	readerChannel chan<- *types.RecordsAndContexts,
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -135,7 +134,7 @@ func (reader *RecordReaderCSVLite) processHandle(
 	handle io.Reader,
 	filename string,
 	context *types.Context,
-	readerChannel chan<- *types.RecordsAndContexts,
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -166,10 +165,10 @@ func getRecordBatchExplicitCSVHeader(
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *types.RecordsAndContexts,
+	recordsAndContexts *types.List[*types.RecordAndContext],
 	eof bool,
 ) {
-	recordsAndContexts = types.NewRecordsAndContexts(reader.recordsPerBatch)
+	recordsAndContexts = types.NewList[*types.RecordAndContext](int(reader.recordsPerBatch))
 	dedupeFieldNames := reader.readerOptions.DedupeFieldNames
 
 	lines, more := <-linesChannel
@@ -177,9 +176,7 @@ func getRecordBatchExplicitCSVHeader(
 		return recordsAndContexts, true
 	}
 
-	for e := lines.Front(); e != nil; e = e.Next() {
-		line := e.Value.(string)
-
+	for _, line := range lines {
 		reader.inputLineNumber++
 
 		// Strip CSV BOM
@@ -289,10 +286,10 @@ func getRecordBatchImplicitCSVHeader(
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *types.RecordsAndContexts,
+	recordsAndContexts *types.List[*types.RecordAndContext],
 	eof bool,
 ) {
-	recordsAndContexts = types.NewRecordsAndContexts(reader.recordsPerBatch)
+	recordsAndContexts = types.NewList[*types.RecordAndContext](int(reader.recordsPerBatch))
 	dedupeFieldNames := reader.readerOptions.DedupeFieldNames
 
 	lines, more := <-linesChannel
@@ -300,9 +297,7 @@ func getRecordBatchImplicitCSVHeader(
 		return recordsAndContexts, true
 	}
 
-	for e := lines.Front(); e != nil; e = e.Next() {
-		line := e.Value.(string)
-
+	for _, line := range lines {
 		reader.inputLineNumber++
 
 		// Check for comments-in-data feature

@@ -2,7 +2,6 @@ package input
 
 import (
 	"bytes"
-	"container/list"
 	"fmt"
 	"io"
 	"strconv"
@@ -52,7 +51,7 @@ func NewRecordReaderCSV(
 func (reader *RecordReaderCSV) Read(
 	filenames []string,
 	context types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -92,7 +91,7 @@ func (reader *RecordReaderCSV) processHandle(
 	handle io.Reader,
 	filename string,
 	context *types.Context,
-	readerChannel chan<- *list.List, // list of *types.RecordAndContext
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -109,7 +108,7 @@ func (reader *RecordReaderCSV) processHandle(
 	csvReader.Comma = rune(reader.ifs0)
 	csvReader.LazyQuotes = reader.csvLazyQuotes
 	csvReader.TrimLeadingSpace = reader.csvTrimLeadingSpace
-	csvRecordsChannel := make(chan *list.List, recordsPerBatch)
+	csvRecordsChannel := make(chan *types.List[[]string], recordsPerBatch)
 	go channelizedCSVRecordScanner(csvReader, csvRecordsChannel, downstreamDoneChannel, errorChannel,
 		recordsPerBatch)
 
@@ -127,7 +126,7 @@ func (reader *RecordReaderCSV) processHandle(
 // TODO: comment
 func channelizedCSVRecordScanner(
 	csvReader *csv.Reader,
-	csvRecordsChannel chan<- *list.List,
+	csvRecordsChannel chan<- *types.List[[]string],
 	downstreamDoneChannel <-chan bool, // for mlr head
 	errorChannel chan error,
 	recordsPerBatch int64,
@@ -135,7 +134,7 @@ func channelizedCSVRecordScanner(
 	i := int64(0)
 	done := false
 
-	csvRecords := list.New()
+	csvRecords := types.NewList[[]string](int(recordsPerBatch))
 
 	for {
 		i++
@@ -168,7 +167,7 @@ func channelizedCSVRecordScanner(
 				break
 			}
 			csvRecordsChannel <- csvRecords
-			csvRecords = list.New()
+			csvRecords = types.NewList[[]string](int(recordsPerBatch))
 		}
 
 		if done {
@@ -181,14 +180,14 @@ func channelizedCSVRecordScanner(
 
 // TODO: comment copiously we're trying to handle slow/fast/short/long reads: tail -f, smallfile, bigfile.
 func (reader *RecordReaderCSV) getRecordBatch(
-	csvRecordsChannel <-chan *list.List,
+	csvRecordsChannel <-chan *types.List[[]string],
 	errorChannel chan error,
 	context *types.Context,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.List[*types.RecordAndContext],
 	eof bool,
 ) {
-	recordsAndContexts = list.New()
+	recordsAndContexts = types.NewList[*types.RecordAndContext](100) // XXX SIZE
 	dedupeFieldNames := reader.readerOptions.DedupeFieldNames
 
 	csvRecords, more := <-csvRecordsChannel
@@ -196,9 +195,7 @@ func (reader *RecordReaderCSV) getRecordBatch(
 		return recordsAndContexts, true
 	}
 
-	for e := csvRecords.Front(); e != nil; e = e.Next() {
-		csvRecord := e.Value.([]string)
-
+	for _, csvRecord := range csvRecords.Items {
 		if reader.needHeader {
 			isData := reader.maybeConsumeComment(csvRecord, context, recordsAndContexts)
 			if !isData {
@@ -290,7 +287,7 @@ func (reader *RecordReaderCSV) getRecordBatch(
 func (reader *RecordReaderCSV) maybeConsumeComment(
 	csvRecord []string,
 	context *types.Context,
-	recordsAndContexts *list.List, // list of *types.RecordAndContext
+	recordsAndContexts *types.List[*types.RecordAndContext],
 ) bool {
 	if reader.readerOptions.CommentHandling == cli.CommentsAreData {
 		// Nothing is to be construed as a comment

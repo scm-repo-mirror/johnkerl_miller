@@ -143,18 +143,18 @@ import (
 // subdivides goroutines for each transformer in the chain, with intermediary
 // channels between them.
 func ChainTransformer(
-	readerRecordChannel <-chan *types.RecordsAndContexts,
+	readerRecordChannel <-chan *types.List[*types.RecordAndContext],
 	readerDownstreamDoneChannel chan<- bool, // for mlr head -- see also stream.go
 	recordTransformers []IRecordTransformer, // not *recordTransformer since this is an interface
-	writerRecordChannel chan<- *types.RecordsAndContexts,
+	writerRecordChannel chan<- *types.List[*types.RecordAndContext],
 	options *cli.TOptions,
 ) {
 	i := 0
 	n := len(recordTransformers)
 
-	intermediateRecordChannels := make([]chan *types.RecordsAndContexts, n-1) // list of *types.RecordAndContext
+	intermediateRecordChannels := make([]chan *types.List[*types.RecordAndContext], n-1)
 	for i = 0; i < n-1; i++ {
-		intermediateRecordChannels[i] = make(chan *types.RecordsAndContexts, 1) // list of *types.RecordAndContext
+		intermediateRecordChannels[i] = make(chan *types.List[*types.RecordAndContext], 1)
 	}
 
 	intermediateDownstreamDoneChannels := make([]chan bool, n)
@@ -199,8 +199,8 @@ func ChainTransformer(
 func runSingleTransformer(
 	recordTransformer IRecordTransformer,
 	isFirstInChain bool,
-	inputRecordChannel <-chan *types.RecordsAndContexts,
-	outputRecordChannel chan<- *types.RecordsAndContexts,
+	inputRecordChannel <-chan *types.List[*types.RecordAndContext],
+	outputRecordChannel chan<- *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 	options *cli.TOptions,
@@ -224,10 +224,10 @@ func runSingleTransformer(
 // TODO: comment
 // Returns true on end of record stream
 func runSingleTransformerBatch(
-	inputRecordsAndContexts *types.RecordsAndContexts,
+	inputRecordsAndContexts *types.List[*types.RecordAndContext],
 	recordTransformer IRecordTransformer,
 	isFirstInChain bool,
-	outputRecordChannel chan<- *types.RecordsAndContexts,
+	outputRecordChannel chan<- *types.List[*types.RecordAndContext],
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 	options *cli.TOptions,

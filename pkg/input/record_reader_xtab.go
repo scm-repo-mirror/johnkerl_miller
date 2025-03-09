@@ -32,14 +32,14 @@ type RecordReaderXTAB struct {
 // 500 or so). This struct helps us keep each stanza's comment lines along with
 // the stanza they originated in.
 type tStanza struct {
-	dataLines    []string
-	commentLines []string
+	dataLines    *types.List[string]
+	commentLines *types.List[string]
 }
 
 func newStanza() *tStanza {
 	return &tStanza{
-		dataLines:    make([]string, 100), // XXX SIZE
-		commentLines: make([]string, 100), // XXX SIZE
+		dataLines:    types.NewList[string](10), // XXX SIZE
+		commentLines: types.NewList[string](10), // XXX SIZE
 	}
 }
 
@@ -57,7 +57,7 @@ func NewRecordReaderXTAB(
 func (reader *RecordReaderXTAB) Read(
 	filenames []string,
 	context types.Context,
-	readerChannel chan<- *types.RecordsAndContexts,
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -97,7 +97,7 @@ func (reader *RecordReaderXTAB) processHandle(
 	handle io.Reader,
 	filename string,
 	context *types.Context,
-	readerChannel chan<- *types.RecordsAndContexts,
+	readerChannel chan<- *types.List[*types.RecordAndContext],
 	errorChannel chan error,
 	downstreamDoneChannel <-chan bool, // for mlr head
 ) {
@@ -107,7 +107,7 @@ func (reader *RecordReaderXTAB) processHandle(
 	// XTAB uses repeated IFS, rather than IRS, to delimit records
 	lineReader := NewLineReader(handle, reader.readerOptions.IFS)
 
-	stanzasChannel := make(chan *tStanza, recordsPerBatch)
+	stanzasChannel := make(chan *types.List[*tStanza], recordsPerBatch)
 	go channelizedStanzaScanner(lineReader, reader.readerOptions, stanzasChannel, downstreamDoneChannel,
 		recordsPerBatch)
 
@@ -139,7 +139,7 @@ func (reader *RecordReaderXTAB) processHandle(
 func channelizedStanzaScanner(
 	lineReader ILineReader,
 	readerOptions *cli.TReaderOptions,
-	stanzasChannel chan<- []tStanza,
+	stanzasChannel chan<- *types.List[*tStanza],
 	downstreamDoneChannel <-chan bool, // for mlr head
 	recordsPerBatch int64,
 ) {
@@ -147,7 +147,7 @@ func channelizedStanzaScanner(
 	inStanza := false
 	done := false
 
-	stanzas := list.New()
+	stanzas := types.NewList[*tStanza](int(recordsPerBatch))
 	stanza := newStanza()
 
 	for {
@@ -211,7 +211,7 @@ func channelizedStanzaScanner(
 				break
 			}
 			stanzasChannel <- stanzas
-			stanzas = list.New()
+			stanzas = types.NewList[*tStanza](int(recordsPerBatch))
 		}
 
 		if done {
@@ -225,29 +225,27 @@ func channelizedStanzaScanner(
 		stanzas.PushBack(stanza)
 	}
 
-	stringtanzasChannel <- stanzas
+	stanzasChannel <- stanzas
 	close(stanzasChannel) // end-of-stream marker
 }
 
 // TODO: comment copiously we're trying to handle slow/fast/short/long reads: tail -f, smallfile, bigfile.
 func (reader *RecordReaderXTAB) getRecordBatch(
-	stanzasChannel <-chan *list.List,
+	stanzasChannel chan<- *types.List[*tStanza],
 	context *types.Context,
 	errorChannel chan error,
 ) (
-	recordsAndContexts *list.List,
+	recordsAndContexts *types.List[*types.RecordAndContext],
 	eof bool,
 ) {
-	recordsAndContexts = list.New()
+	recordsAndContexts = types.NewList[*types.RecordAndContext](int(reader.recordsPerBatch))
 
 	stanzas, more := <-stanzasChannel
 	if !more {
 		return recordsAndContexts, true
 	}
 
-	for e := stanzas.Front(); e != nil; e = e.Next() {
-		stanza := e.Value.(*tStanza)
-
+	for _, stanza := range stanzas.Items {
 		if stanza.commentLines.Len() > 0 {
 			for f := stanza.commentLines.Front(); f != nil; f = f.Next() {
 				line := f.Value.(string)
@@ -270,14 +268,12 @@ func (reader *RecordReaderXTAB) getRecordBatch(
 }
 
 func (reader *RecordReaderXTAB) recordFromXTABLines(
-	stanza *list.List,
+	stanza *types.List[string],
 ) (*mlrval.Mlrmap, error) {
 	record := mlrval.NewMlrmapAsRecord()
 	dedupeFieldNames := reader.readerOptions.DedupeFieldNames
 
-	for e := stanza.Front(); e != nil; e = e.Next() {
-		line := e.Value.(string)
-
+	for _, line := range stanza.Items {
 		key, value, err := reader.pairSplitter.Split(line)
 		if err != nil {
 			return nil, err

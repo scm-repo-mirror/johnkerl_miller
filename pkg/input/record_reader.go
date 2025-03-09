@@ -4,8 +4,6 @@
 package input
 
 import (
-	"container/list"
-
 	"github.com/johnkerl/miller/v6/pkg/types"
 )
 
@@ -19,7 +17,7 @@ type IRecordReader interface {
 	Read(
 		filenames []string,
 		initialContext types.Context,
-		readerChannel chan<- *list.List, // list of *types.RecordAndContext
+		readerChannel chan<- *types.List[*types.RecordAndContext],
 		errorChannel chan error,
 		downstreamDoneChannel <-chan bool, // for mlr head
 	)
