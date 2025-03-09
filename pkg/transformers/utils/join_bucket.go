@@ -21,7 +21,7 @@ func NewJoinBucket(
 ) *JoinBucket {
 	return &JoinBucket{
 		leftFieldValues:    leftFieldValues,
-		RecordsAndContexts: list.New(),
+		RecordsAndContexts: types.NewList[*types.RecordAndContext](100), // XXX SIZE
 		WasPaired:          false,
 	}
 }

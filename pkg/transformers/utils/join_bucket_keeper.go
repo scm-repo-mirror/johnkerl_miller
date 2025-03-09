@@ -151,7 +151,7 @@ type JoinBucketKeeper struct {
 
 	peekRecordAndContext *types.RecordAndContext
 	JoinBucket           *JoinBucket
-	leftUnpaireds        *list.List
+	leftUnpaireds        *types.List[*types.RecordAndContext]
 
 	leof  bool
 	state tJoinBucketKeeperState
@@ -200,7 +200,7 @@ func NewJoinBucketKeeper(
 
 		JoinBucket:           NewJoinBucket(nil),
 		peekRecordAndContext: nil,
-		leftUnpaireds:        list.New(),
+		leftUnpaireds:        types.NewList[*types.RecordAndContext](100), // XXX SIZE
 
 		leof:  false,
 		state: LEFT_STATE_0_PREFILL,
@@ -534,27 +534,16 @@ func (keeper *JoinBucketKeeper) markRemainingsAsUnpaired() {
 func (keeper *JoinBucketKeeper) OutputAndReleaseLeftUnpaireds(
 	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
-	for {
-		element := keeper.leftUnpaireds.Front()
-		if element == nil {
-			break
-		}
-		recordAndContext := element.Value.(*types.RecordAndContext)
+	for _, recordAndContext := range keeper.leftUnpaireds.Items {
 		outputRecordsAndContexts.PushBack(recordAndContext)
-		keeper.leftUnpaireds.Remove(element)
 	}
+	keeper.leftUnpaireds.Clear()
 }
 
 func (keeper *JoinBucketKeeper) ReleaseLeftUnpaireds(
 	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {
-	for {
-		element := keeper.leftUnpaireds.Front()
-		if element == nil {
-			break
-		}
-		keeper.leftUnpaireds.Remove(element)
-	}
+	keeper.leftUnpaireds.Clear()
 }
 
 // ================================================================
@@ -593,17 +582,11 @@ func (keeper *JoinBucketKeeper) readRecord() *types.RecordAndContext {
 // Pops everything off second-argument list and push to first-argument list.
 
 func moveRecordsAndContexts(
-	destination *list.List,
-	source *list.List,
+	destination *types.List[*types.RecordAndContext],
+	source *types.List[*types.RecordAndContext],
 ) {
-	for {
-		element := source.Front()
-		if element == nil {
-			break
-		}
-		destination.PushBack(element.Value.(*types.RecordAndContext))
-		source.Remove(element)
-	}
+	destination.PushBackMultiple(source.Items)
+	source.Clear()
 }
 
 // ----------------------------------------------------------------
