@@ -190,7 +190,7 @@ func (tr *TransformerCase) Transform(
 			outputDownstreamDoneChannel,
 		)
 	} else { // end of record stream
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -211,7 +211,7 @@ func (tr *TransformerCase) transformKeysOnly(
 			newrec.PutReference(pe.Key, pe.Value)
 		}
 	}
-	outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &inrecAndContext.Context))
+	outputRecordsAndContexts = append(outputRecordsAndContexts, types.NewRecordAndContext(newrec, &inrecAndContext.Context))
 }
 
 func (tr *TransformerCase) transformValuesOnly(
@@ -254,5 +254,5 @@ func (tr *TransformerCase) transformKeysAndValues(
 			newrec.PutReference(pe.Key, pe.Value)
 		}
 	}
-	outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &inrecAndContext.Context))
+	outputRecordsAndContexts = append(outputRecordsAndContexts, types.NewRecordAndContext(newrec, &inrecAndContext.Context))
 }

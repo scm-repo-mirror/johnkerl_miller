@@ -159,9 +159,9 @@ func (tr *TransformerCleanWhitespace) cleanWhitespaceInKeysAndValues(
 			newrec.PutReference(newKey.String(), newValue)
 		}
 
-		outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &inrecAndContext.Context))
+		outputRecordsAndContexts = append(outputRecordsAndContexts, types.NewRecordAndContext(newrec, &inrecAndContext.Context))
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -182,9 +182,9 @@ func (tr *TransformerCleanWhitespace) cleanWhitespaceInKeys(
 			newrec.PutReference(newKey.String(), pe.Value)
 		}
 
-		outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &inrecAndContext.Context))
+		outputRecordsAndContexts = append(outputRecordsAndContexts, types.NewRecordAndContext(newrec, &inrecAndContext.Context))
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -199,8 +199,8 @@ func (tr *TransformerCleanWhitespace) cleanWhitespaceInValues(
 		for pe := inrecAndContext.Record.Head; pe != nil; pe = pe.Next {
 			pe.Value = bifs.BIF_clean_whitespace(pe.Value)
 		}
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

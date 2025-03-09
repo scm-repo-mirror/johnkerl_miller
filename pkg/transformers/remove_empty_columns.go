@@ -128,6 +128,6 @@ func (tr *TransformerRemoveEmptyColumns) Transform(
 			outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &outrecAndContext.Context))
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // Emit the stream-terminating null record
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // Emit the stream-terminating null record
 	}
 }

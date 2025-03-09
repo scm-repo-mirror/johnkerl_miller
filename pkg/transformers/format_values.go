@@ -174,7 +174,7 @@ func (tr *TransformerFormatValues) Transform(
 ) {
 	HandleDefaultDownstreamDone(inputDownstreamDoneChannel, outputDownstreamDoneChannel)
 	if inrecAndContext.EndOfStream {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 		return
 	}
 
@@ -199,5 +199,5 @@ func (tr *TransformerFormatValues) Transform(
 		}
 	}
 
-	outputRecordsAndContexts.PushBack(inrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 }

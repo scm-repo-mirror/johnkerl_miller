@@ -304,7 +304,7 @@ func (tr *TransformerSubs) Transform(
 		}
 	}
 	// Including emit of end-of-stream marker
-	outputRecordsAndContexts.PushBack(inrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 }
 
 // fieldAcceptorByNames implements -f

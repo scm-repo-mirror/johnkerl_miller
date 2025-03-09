@@ -193,7 +193,7 @@ func (tr *TransformerCat) simpleCat(
 			inrecAndContext.Record.PrependCopy("filenum", mlrval.FromInt(inrecAndContext.Context.FILENUM))
 		}
 	}
-	outputRecordsAndContexts.PushBack(inrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 }
 
 // ----------------------------------------------------------------
@@ -216,7 +216,7 @@ func (tr *TransformerCat) countersUngrouped(
 			inrec.PrependCopy("filenum", mlrval.FromInt(inrecAndContext.Context.FILENUM))
 		}
 	}
-	outputRecordsAndContexts.PushBack(inrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 }
 
 // ----------------------------------------------------------------
@@ -255,5 +255,5 @@ func (tr *TransformerCat) countersGrouped(
 			inrec.PrependCopy("filenum", mlrval.FromInt(inrecAndContext.Context.FILENUM))
 		}
 	}
-	outputRecordsAndContexts.PushBack(inrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 }

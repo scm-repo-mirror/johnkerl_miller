@@ -408,7 +408,7 @@ func (tr *TransformerStats1) handleInputRecord(
 			level2.(*lib.OrderedMap),
 			inrec,
 		)
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -584,7 +584,7 @@ func (tr *TransformerStats1) handleEndOfRecordStream(
 	outputRecordsAndContexts []*types.RecordAndContext,
 ) {
 	if tr.doIterativeStats {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 		return
 	}
 
@@ -602,10 +602,10 @@ func (tr *TransformerStats1) handleEndOfRecordStream(
 			newrec,
 		)
 
-		outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &inrecAndContext.Context))
+		outputRecordsAndContexts = append(outputRecordsAndContexts, types.NewRecordAndContext(newrec, &inrecAndContext.Context))
 	}
 
-	outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 }
 
 func (tr *TransformerStats1) emitIntoOutputRecord(

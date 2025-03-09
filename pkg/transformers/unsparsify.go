@@ -208,7 +208,7 @@ func (tr *TransformerUnsparsify) transformStreaming(
 			}
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 
 	} else {
 		// end-of-stream marker

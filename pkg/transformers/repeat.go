@@ -182,7 +182,7 @@ func (tr *TransformerRepeat) repeatByCount(
 			))
 		}
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -210,6 +210,6 @@ func (tr *TransformerRepeat) repeatByFieldName(
 		}
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

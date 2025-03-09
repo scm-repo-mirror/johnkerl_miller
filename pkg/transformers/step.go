@@ -370,7 +370,7 @@ func (tr *TransformerStep) Transform(
 			tr.handleDrainRecord(logEntry, outputRecordsAndContexts)
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		return
 	}
 }
@@ -390,7 +390,7 @@ func (tr *TransformerStep) handleRecord(
 	// Grouping key is "s,t"
 	groupingKey, gok := inrec.GetSelectedValuesJoined(tr.groupByFieldNames)
 	if !gok { // current record doesn't have fields to be stepped; pass it along
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		return
 	}
 
@@ -455,7 +455,7 @@ func (tr *TransformerStep) handleRecord(
 
 	if windowKeeper.Get(0) != nil {
 		outrecAndContext := windowKeeper.Get(0).(*types.RecordAndContext)
-		outputRecordsAndContexts.PushBack(outrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 		tr.removeFromLog(outrecAndContext)
 	}
 }
@@ -496,7 +496,7 @@ func (tr *TransformerStep) handleDrainRecord(
 
 	if windowKeeper.Get(0) != nil {
 		outrecAndContext := windowKeeper.Get(0).(*types.RecordAndContext)
-		outputRecordsAndContexts.PushBack(outrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 	}
 }
 

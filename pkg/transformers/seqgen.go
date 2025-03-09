@@ -210,7 +210,7 @@ func (tr *TransformerSeqgen) Transform(
 		context.UpdateForInputRecord()
 
 		outrecAndContext := types.NewRecordAndContext(outrec, context)
-		outputRecordsAndContexts.PushBack(outrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 
 		counter = bifs.BIF_plus_binary(counter, tr.step)
 	}

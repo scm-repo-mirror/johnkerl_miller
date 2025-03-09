@@ -161,6 +161,6 @@ func (tr *TransformerCountSimilar) Transform(
 			}
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // Emit the stream-terminating null record
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // Emit the stream-terminating null record
 	}
 }

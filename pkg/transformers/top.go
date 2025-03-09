@@ -281,10 +281,10 @@ func (tr *TransformerTop) emit(
 					}
 				}
 
-				outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &inrecAndContext.Context))
+				outputRecordsAndContexts = append(outputRecordsAndContexts, types.NewRecordAndContext(newrec, &inrecAndContext.Context))
 			}
 		}
 	}
 
-	outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 }

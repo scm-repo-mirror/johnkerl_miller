@@ -208,9 +208,9 @@ func (tr *TransformerCut) includeWithInputOrder(
 			}
 		}
 		outrecAndContext := types.NewRecordAndContext(outrec, &inrecAndContext.Context)
-		outputRecordsAndContexts.PushBack(outrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -232,9 +232,9 @@ func (tr *TransformerCut) includeWithArgOrder(
 			}
 		}
 		outrecAndContext := types.NewRecordAndContext(outrec, &inrecAndContext.Context)
-		outputRecordsAndContexts.PushBack(outrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -254,7 +254,7 @@ func (tr *TransformerCut) exclude(
 			}
 		}
 	}
-	outputRecordsAndContexts.PushBack(inrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 }
 
 // ----------------------------------------------------------------
@@ -282,8 +282,8 @@ func (tr *TransformerCut) processWithRegexes(
 				newrec.PutReference(pe.Key, pe.Value)
 			}
 		}
-		outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &inrecAndContext.Context))
+		outputRecordsAndContexts = append(outputRecordsAndContexts, types.NewRecordAndContext(newrec, &inrecAndContext.Context))
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

@@ -120,6 +120,6 @@ func (tr *TransformerCheck) Transform(
 			}
 		}
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

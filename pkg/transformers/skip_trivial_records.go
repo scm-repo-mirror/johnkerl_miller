@@ -105,10 +105,10 @@ func (tr *TransformerSkipTrivialRecords) Transform(
 		}
 
 		if hasAny {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		}
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

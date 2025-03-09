@@ -217,7 +217,7 @@ func (tr *TransformerHistogram) transformNonAuto(
 		tr.ingestNonAuto(inrecAndContext)
 	} else {
 		tr.emitNonAuto(&inrecAndContext.Context, outputRecordsAndContexts)
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 
@@ -290,7 +290,7 @@ func (tr *TransformerHistogram) transformAuto(
 		tr.ingestAuto(inrecAndContext)
 	} else {
 		tr.emitAuto(&inrecAndContext.Context, outputRecordsAndContexts)
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 

@@ -385,10 +385,10 @@ func (tr *TransformerSummary) emit(
 			}
 		}
 
-		outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &inrecAndContext.Context))
+		outputRecordsAndContexts = append(outputRecordsAndContexts, types.NewRecordAndContext(newrec, &inrecAndContext.Context))
 	}
 
-	outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 }
 
 func (tr *TransformerSummary) emitTransposed(

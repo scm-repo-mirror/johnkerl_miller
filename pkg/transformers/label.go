@@ -129,5 +129,5 @@ func (tr *TransformerLabel) Transform(
 		inrec := inrecAndContext.Record
 		inrec.Label(tr.newNames)
 	}
-	outputRecordsAndContexts.PushBack(inrecAndContext) // including end-of-stream marker
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // including end-of-stream marker
 }

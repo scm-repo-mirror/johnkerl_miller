@@ -125,7 +125,7 @@ func (tr *TransformerSortWithinRecords) transformNonrecursively(
 		inrec := inrecAndContext.Record
 		inrec.SortByKey()
 	}
-	outputRecordsAndContexts.PushBack(inrecAndContext) // including end-of-stream marker
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // including end-of-stream marker
 }
 
 // ----------------------------------------------------------------
@@ -139,5 +139,5 @@ func (tr *TransformerSortWithinRecords) transformRecursively(
 		inrec := inrecAndContext.Record
 		inrec.SortByKeyRecursively()
 	}
-	outputRecordsAndContexts.PushBack(inrecAndContext) // including end-of-stream marker
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // including end-of-stream marker
 }

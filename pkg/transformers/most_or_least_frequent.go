@@ -283,6 +283,6 @@ func (tr *TransformerMostOrLeastFrequent) Transform(
 			outputRecordsAndContexts.PushBack(types.NewRecordAndContext(outrec, &inrecAndContext.Context))
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // End-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // End-of-stream marker
 	}
 }

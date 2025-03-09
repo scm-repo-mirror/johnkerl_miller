@@ -214,7 +214,7 @@ func (tr *TransformerRename) transformWithoutRegexes(
 
 		}
 	}
-	outputRecordsAndContexts.PushBack(inrecAndContext) // including end-of-stream marker
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // including end-of-stream marker
 }
 
 // ----------------------------------------------------------------
@@ -249,8 +249,8 @@ func (tr *TransformerRename) transformWithRegexes(
 			}
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // including end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // including end-of-stream marker
 	}
 }

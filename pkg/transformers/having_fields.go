@@ -243,14 +243,14 @@ func (tr *TransformerHavingFields) transformHavingFieldsAtLeast(
 			if tr.fieldNameSet[pe.Key] {
 				numFound++
 				if numFound == tr.numFieldNames {
-					outputRecordsAndContexts.PushBack(inrecAndContext)
+					outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 					return
 				}
 			}
 		}
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -270,9 +270,9 @@ func (tr *TransformerHavingFields) transformHavingFieldsWhichAre(
 				return
 			}
 		}
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -289,9 +289,9 @@ func (tr *TransformerHavingFields) transformHavingFieldsAtMost(
 				return
 			}
 		}
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -309,9 +309,9 @@ func (tr *TransformerHavingFields) transformHavingAllFieldsMatching(
 				return
 			}
 		}
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -325,12 +325,12 @@ func (tr *TransformerHavingFields) transformHavingAnyFieldsMatching(
 		inrec := inrecAndContext.Record
 		for pe := inrec.Head; pe != nil; pe = pe.Next {
 			if tr.regex.MatchString(pe.Key) {
-				outputRecordsAndContexts.PushBack(inrecAndContext)
+				outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 				return
 			}
 		}
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -347,8 +347,8 @@ func (tr *TransformerHavingFields) transformHavingNoFieldsMatching(
 				return
 			}
 		}
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

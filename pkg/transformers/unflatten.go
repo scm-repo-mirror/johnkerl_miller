@@ -155,9 +155,9 @@ func (tr *TransformerUnflatten) unflattenAll(
 			oFlatSep = tr.options.WriterOptions.FLATSEP
 		}
 		inrec.Unflatten(oFlatSep)
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 
@@ -175,8 +175,8 @@ func (tr *TransformerUnflatten) unflattenSome(
 			oFlatSep = tr.options.WriterOptions.FLATSEP
 		}
 		inrec.UnflattenFields(tr.fieldNameSet, oFlatSep)
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }

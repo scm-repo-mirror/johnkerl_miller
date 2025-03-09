@@ -152,8 +152,8 @@ func (tr *TransformerTemplate) Transform(
 			}
 		}
 		outrecAndContext := types.NewRecordAndContext(outrec, &inrecAndContext.Context)
-		outputRecordsAndContexts.PushBack(outrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

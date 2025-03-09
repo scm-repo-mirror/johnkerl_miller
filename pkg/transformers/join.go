@@ -398,7 +398,7 @@ func (tr *TransformerJoin) transformHalfStreaming(
 			iLeftBucket := tr.leftBucketsByJoinFieldValues.Get(groupingKey)
 			if iLeftBucket == nil {
 				if tr.opts.emitRightUnpairables {
-					outputRecordsAndContexts.PushBack(inrecAndContext)
+					outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 				}
 			} else {
 				leftBucket := iLeftBucket.(*utils.JoinBucket)
@@ -412,7 +412,7 @@ func (tr *TransformerJoin) transformHalfStreaming(
 				}
 			}
 		} else if tr.opts.emitRightUnpairables {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		}
 
 	} else { // end of record stream
@@ -420,7 +420,7 @@ func (tr *TransformerJoin) transformHalfStreaming(
 			tr.emitLeftUnpairedBuckets(outputRecordsAndContexts)
 			tr.emitLeftUnpairables(outputRecordsAndContexts)
 		}
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }
 
@@ -610,7 +610,7 @@ func (tr *TransformerJoin) formAndEmitPairs(
 		outrecAndContext := types.NewRecordAndContext(outrec, &context)
 
 		// Emit the new joined record on the downstream channel
-		outputRecordsAndContexts.PushBack(outrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 	}
 	////fmt.Println("-- pairs end") // VERBOSE
 }

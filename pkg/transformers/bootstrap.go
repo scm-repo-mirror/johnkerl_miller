@@ -150,7 +150,7 @@ func (tr *TransformerBootstrap) Transform(
 
 	if nout == 0 {
 		// Emit the stream-terminating null record
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		return
 	}
 
@@ -175,5 +175,5 @@ func (tr *TransformerBootstrap) Transform(
 	}
 
 	// Emit the stream-terminating null record
-	outputRecordsAndContexts.PushBack(inrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 }

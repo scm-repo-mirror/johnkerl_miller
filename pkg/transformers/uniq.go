@@ -464,7 +464,7 @@ func (tr *TransformerUniq) transformUniqifyEntireRecords(
 	} else { // end of record stream
 
 		// end-of-stream marker
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -519,7 +519,7 @@ func (tr *TransformerUniq) transformUnlashed(
 			}
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 
@@ -551,7 +551,7 @@ func (tr *TransformerUniq) transformNumDistinctOnly(
 		)
 		outputRecordsAndContexts.PushBack(types.NewRecordAndContext(outrec, &inrecAndContext.Context))
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 
@@ -601,7 +601,7 @@ func (tr *TransformerUniq) transformWithCounts(
 			outputRecordsAndContexts.PushBack(types.NewRecordAndContext(outrec, &inrecAndContext.Context))
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 
@@ -640,6 +640,6 @@ func (tr *TransformerUniq) transformWithoutCounts(
 		}
 
 	} else { // end of record stream
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }

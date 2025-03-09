@@ -324,7 +324,7 @@ func (tr *TransformerReshape) wideToLongNoRegex(
 		}
 
 		if pairs.IsEmpty() {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		} else {
 			for pf := pairs.Head; pf != nil; pf = pf.Next {
 				outrec := inrec.Copy()
@@ -335,7 +335,7 @@ func (tr *TransformerReshape) wideToLongNoRegex(
 		}
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }
 
@@ -366,7 +366,7 @@ func (tr *TransformerReshape) wideToLongRegex(
 		}
 
 		if pairs.IsEmpty() {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		} else {
 			for pf := pairs.Head; pf != nil; pf = pf.Next {
 				outrec := inrec.Copy()
@@ -377,7 +377,7 @@ func (tr *TransformerReshape) wideToLongRegex(
 		}
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }
 
@@ -394,7 +394,7 @@ func (tr *TransformerReshape) longToWide(
 		splitOutKeyFieldValue := inrec.Get(tr.splitOutKeyFieldName)
 		splitOutValueFieldValue := inrec.Get(tr.splitOutValueFieldName)
 		if splitOutKeyFieldValue == nil || splitOutValueFieldValue == nil {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 			return
 		}
 
@@ -442,7 +442,7 @@ func (tr *TransformerReshape) longToWide(
 			}
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }
 

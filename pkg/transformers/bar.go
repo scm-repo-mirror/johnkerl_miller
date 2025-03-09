@@ -338,5 +338,5 @@ func (tr *TransformerBar) processAuto(
 		outputRecordsAndContexts.PushBack(recordAndContext)
 	}
 
-	outputRecordsAndContexts.PushBack(inrecAndContext) // Emit the end-of-stream marker
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // Emit the end-of-stream marker
 }

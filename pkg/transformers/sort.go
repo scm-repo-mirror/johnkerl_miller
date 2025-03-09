@@ -410,7 +410,7 @@ func (tr *TransformerSort) Transform(
 			outputRecordsAndContexts.PushBack(iRecord.Value.(*types.RecordAndContext))
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 

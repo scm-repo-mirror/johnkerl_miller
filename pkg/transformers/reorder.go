@@ -213,7 +213,7 @@ func (tr *TransformerReorder) Transform(
 			outputRecordsAndContexts,
 		)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 
@@ -225,7 +225,7 @@ func (tr *TransformerReorder) reorderToStartNoRegex(
 	for _, fieldName := range tr.fieldNames {
 		inrec.MoveToHead(fieldName)
 	}
-	outputRecordsAndContexts.PushBack(inrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 }
 
 func (tr *TransformerReorder) reorderToStartWithRegex(
@@ -257,7 +257,7 @@ func (tr *TransformerReorder) reorderToStartWithRegex(
 	}
 
 	outrecAndContext := types.NewRecordAndContext(outrec, &inrecAndContext.Context)
-	outputRecordsAndContexts.PushBack(outrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 }
 
 func (tr *TransformerReorder) reorderToEndNoRegex(
@@ -268,7 +268,7 @@ func (tr *TransformerReorder) reorderToEndNoRegex(
 	for _, fieldName := range tr.fieldNames {
 		inrec.MoveToTail(fieldName)
 	}
-	outputRecordsAndContexts.PushBack(inrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 
 }
 
@@ -300,7 +300,7 @@ func (tr *TransformerReorder) reorderToEndWithRegex(
 	}
 
 	outrecAndContext := types.NewRecordAndContext(outrec, &inrecAndContext.Context)
-	outputRecordsAndContexts.PushBack(outrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 }
 
 func (tr *TransformerReorder) reorderBeforeOrAfterNoRegex(
@@ -309,7 +309,7 @@ func (tr *TransformerReorder) reorderBeforeOrAfterNoRegex(
 ) {
 	inrec := inrecAndContext.Record
 	if inrec.Get(tr.centerFieldName) == nil {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		return
 	}
 
@@ -366,7 +366,7 @@ func (tr *TransformerReorder) reorderBeforeOrAfterWithRegex(
 ) {
 	inrec := inrecAndContext.Record
 	if inrec.Get(tr.centerFieldName) == nil {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		return
 	}
 

@@ -276,7 +276,7 @@ func (tr *TransformerStats2) Transform(
 
 		if tr.doIterativeStats {
 			// The input record is modified in this case, with new fields appended
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		}
 		// if tr.doHoldAndFit, the input record is held by the ingestor
 
@@ -288,7 +288,7 @@ func (tr *TransformerStats2) Transform(
 				tr.emit(outputRecordsAndContexts, &inrecAndContext.Context)
 			}
 		}
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 

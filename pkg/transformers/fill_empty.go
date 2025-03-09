@@ -124,9 +124,9 @@ func (tr *TransformerFillEmpty) Transform(
 			}
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 
 	} else { // end of record stream
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }

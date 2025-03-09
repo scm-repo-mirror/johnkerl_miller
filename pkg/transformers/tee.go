@@ -202,7 +202,7 @@ func (tr *TransformerTee) Transform(
 			os.Exit(1)
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
 		err := tr.fileOutputHandler.Close()
 		if err != nil {
@@ -214,6 +214,6 @@ func (tr *TransformerTee) Transform(
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

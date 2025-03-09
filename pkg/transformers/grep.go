@@ -171,14 +171,14 @@ func (tr *TransformerGrep) Transform(
 		matches := tr.regexp.MatchString(inrecAsString)
 		if tr.invert {
 			if !matches {
-				outputRecordsAndContexts.PushBack(inrecAndContext)
+				outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 			}
 		} else {
 			if matches {
-				outputRecordsAndContexts.PushBack(inrecAndContext)
+				outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 			}
 		}
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

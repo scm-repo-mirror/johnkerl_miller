@@ -161,9 +161,9 @@ func (tr *TransformerJSONStringify) jsonStringifyAll(
 		for pe := inrec.Head; pe != nil; pe = pe.Next {
 			pe.JSONStringifyInPlace(tr.jsonFormatting)
 		}
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 
@@ -181,8 +181,8 @@ func (tr *TransformerJSONStringify) jsonStringifySome(
 				pe.JSONStringifyInPlace(tr.jsonFormatting)
 			}
 		}
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }

@@ -142,7 +142,7 @@ func (tr *TransformerSparsify) Transform(
 			outputDownstreamDoneChannel,
 		)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 
@@ -163,7 +163,7 @@ func (tr *TransformerSparsify) transformAll(
 	}
 
 	outrecAndContext := types.NewRecordAndContext(outrec, &inrecAndContext.Context)
-	outputRecordsAndContexts.PushBack(outrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 }
 
 // ----------------------------------------------------------------
@@ -188,5 +188,5 @@ func (tr *TransformerSparsify) transformSome(
 	}
 
 	outrecAndContext := types.NewRecordAndContext(outrec, &inrecAndContext.Context)
-	outputRecordsAndContexts.PushBack(outrecAndContext)
+	outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 }

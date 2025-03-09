@@ -337,7 +337,7 @@ func (tr *TransformerNest) explodeValuesAcrossFields(
 		inrec := inrecAndContext.Record
 		originalEntry := inrec.GetEntry(tr.fieldName)
 		if originalEntry == nil {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 			return
 		}
 
@@ -356,10 +356,10 @@ func (tr *TransformerNest) explodeValuesAcrossFields(
 		}
 
 		inrec.Unlink(originalEntry)
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }
 
@@ -374,7 +374,7 @@ func (tr *TransformerNest) explodeValuesAcrossRecords(
 		inrec := inrecAndContext.Record
 		mvalue := inrec.Get(tr.fieldName)
 		if mvalue == nil {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 			return
 		}
 		svalue := mvalue.String()
@@ -388,7 +388,7 @@ func (tr *TransformerNest) explodeValuesAcrossRecords(
 		}
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }
 
@@ -404,7 +404,7 @@ func (tr *TransformerNest) explodePairsAcrossFields(
 		inrec := inrecAndContext.Record
 		originalEntry := inrec.GetEntry(tr.fieldName)
 		if originalEntry == nil {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 			return
 		}
 
@@ -431,10 +431,10 @@ func (tr *TransformerNest) explodePairsAcrossFields(
 		}
 
 		inrec.Unlink(originalEntry)
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }
 
@@ -449,7 +449,7 @@ func (tr *TransformerNest) explodePairsAcrossRecords(
 		inrec := inrecAndContext.Record
 		mvalue := inrec.Get(tr.fieldName)
 		if mvalue == nil {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 			return
 		}
 
@@ -474,7 +474,7 @@ func (tr *TransformerNest) explodePairsAcrossRecords(
 		}
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }
 
@@ -520,10 +520,10 @@ func (tr *TransformerNest) implodeValuesAcrossFields(
 			}
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }
 
@@ -539,7 +539,7 @@ func (tr *TransformerNest) implodeValueAcrossRecords(
 
 		originalEntry := inrec.GetEntry(tr.fieldName)
 		if originalEntry == nil {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 			return
 		}
 
@@ -596,7 +596,7 @@ func (tr *TransformerNest) implodeValueAcrossRecords(
 			}
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }
 

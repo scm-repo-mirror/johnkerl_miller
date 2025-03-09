@@ -149,6 +149,6 @@ func (tr *TransformerShuffle) Transform(
 		}
 
 		// Emit the stream-terminating null record
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

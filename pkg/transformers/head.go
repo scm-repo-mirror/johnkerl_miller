@@ -160,7 +160,7 @@ func (tr *TransformerHead) transformUnkeyed(
 	if !inrecAndContext.EndOfStream {
 		tr.unkeyedRecordCount++
 		if tr.unkeyedRecordCount <= tr.headCount {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		} else if !tr.wroteDownstreamDone {
 			// Signify to data producers upstream that we'll ignore further
 			// data, so as far as we're concerned they can stop sending it. See
@@ -170,7 +170,7 @@ func (tr *TransformerHead) transformUnkeyed(
 			tr.wroteDownstreamDone = true
 		}
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
@@ -198,10 +198,10 @@ func (tr *TransformerHead) transformKeyed(
 		}
 
 		if count <= tr.headCount {
-			outputRecordsAndContexts.PushBack(inrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 		}
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

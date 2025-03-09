@@ -117,6 +117,6 @@ func (tr *TransformerUTF8ToLatin1) Transform(
 		)
 
 	} else { // end of record stream
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

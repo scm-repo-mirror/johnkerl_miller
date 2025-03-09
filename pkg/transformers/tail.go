@@ -164,6 +164,6 @@ func (tr *TransformerTail) Transform(
 				outputRecordsAndContexts.PushBack(inner.Value.(*types.RecordAndContext))
 			}
 		}
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }

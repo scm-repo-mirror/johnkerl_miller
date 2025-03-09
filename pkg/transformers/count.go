@@ -170,9 +170,9 @@ func (tr *TransformerCount) countUngrouped(
 	} else {
 		newrec := mlrval.NewMlrmapAsRecord()
 		newrec.PutCopy(tr.outputFieldName, mlrval.FromInt(tr.ungroupedCount))
-		outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &inrecAndContext.Context))
+		outputRecordsAndContexts = append(outputRecordsAndContexts, types.NewRecordAndContext(newrec, &inrecAndContext.Context))
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
 
@@ -210,7 +210,7 @@ func (tr *TransformerCount) countGrouped(
 			newrec.PutCopy(tr.outputFieldName, mlrval.FromInt(tr.groupedCounts.FieldCount))
 
 			outrecAndContext := types.NewRecordAndContext(newrec, &inrecAndContext.Context)
-			outputRecordsAndContexts.PushBack(outrecAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 
 		} else {
 			for outer := tr.groupedCounts.Head; outer != nil; outer = outer.Next {
@@ -235,10 +235,10 @@ func (tr *TransformerCount) countGrouped(
 				newrec.PutCopy(tr.outputFieldName, mlrval.FromInt(countForGroup))
 
 				outrecAndContext := types.NewRecordAndContext(newrec, &inrecAndContext.Context)
-				outputRecordsAndContexts.PushBack(outrecAndContext)
+				outputRecordsAndContexts = append(outputRecordsAndContexts, outrecAndContext)
 			}
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}
 }
