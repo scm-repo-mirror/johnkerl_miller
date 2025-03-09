@@ -231,7 +231,7 @@ func channelizedStanzaScanner(
 
 // TODO: comment copiously we're trying to handle slow/fast/short/long reads: tail -f, smallfile, bigfile.
 func (reader *RecordReaderXTAB) getRecordBatch(
-	stanzasChannel chan<- *types.List[*tStanza],
+	stanzasChannel <-chan *types.List[*tStanza],
 	context *types.Context,
 	errorChannel chan error,
 ) (
@@ -247,9 +247,8 @@ func (reader *RecordReaderXTAB) getRecordBatch(
 
 	for _, stanza := range stanzas.Items {
 		if stanza.commentLines.Len() > 0 {
-			for f := stanza.commentLines.Front(); f != nil; f = f.Next() {
-				line := f.Value.(string)
-				recordsAndContexts.PushBack(types.NewOutputString(line+reader.readerOptions.IFS, context))
+			for _, commentLine := range stanza.commentLines.Items {
+				recordsAndContexts.PushBack(types.NewOutputString(commentLine+reader.readerOptions.IFS, context))
 			}
 		}
 
