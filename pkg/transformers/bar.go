@@ -194,7 +194,7 @@ func NewTransformerBar(
 
 	if doAuto {
 		tr.recordTransformerFunc = tr.processAuto
-		tr.recordsForAutoMode = list.New()
+		tr.recordsForAutoMode = make([]*types.RecordAndContext, 10) // XXX records per batch
 	} else {
 		tr.recordTransformerFunc = tr.processNoAuto
 		tr.recordsForAutoMode = nil
@@ -258,7 +258,7 @@ func (tr *TransformerBar) processAuto(
 	outputDownstreamDoneChannel chan<- bool,
 ) {
 	if !inrecAndContext.EndOfStream {
-		tr.recordsForAutoMode.PushBack(inrecAndContext.Copy())
+		tr.recordsForAutoMode = append(tr.recordsForAutoMode, inrecAndContext.Copy())
 		return
 	}
 
@@ -271,9 +271,8 @@ func (tr *TransformerBar) processAuto(
 
 		// The first pass computes lo and hi from the data
 		onFirst := true
-		for e := tr.recordsForAutoMode.Front(); e != nil; e = e.Next() {
-			recordAndContexts := e.Value.(*types.RecordAndContext)
-			record := recordAndContexts.Record
+		for _, recordAndContext := range tr.recordsForAutoMode {
+			record := recordAndContext.Record
 			mvalue := record.Get(fieldName)
 			if mvalue == nil {
 				continue
@@ -301,8 +300,7 @@ func (tr *TransformerBar) processAuto(
 		slo := fmt.Sprintf("%g", lo)
 		shi := fmt.Sprintf("%g", hi)
 
-		for e := tr.recordsForAutoMode.Front(); e != nil; e = e.Next() {
-			recordAndContext := e.Value.(*types.RecordAndContext)
+		for _, recordAndContext := range tr.recordsForAutoMode {
 			record := recordAndContext.Record
 			mvalue := record.Get(fieldName)
 			if mvalue == nil {
@@ -333,10 +331,7 @@ func (tr *TransformerBar) processAuto(
 		}
 	}
 
-	for e := tr.recordsForAutoMode.Front(); e != nil; e = e.Next() {
-		recordAndContext := e.Value.(*types.RecordAndContext)
-		outputRecordsAndContexts.PushBack(recordAndContext)
-	}
+	outputRecordsAndContexts = append(outputRecordsAndContexts, tr.recordsForAutoMode...)
 
 	outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // Emit the end-of-stream marker
 }
