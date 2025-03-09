@@ -312,7 +312,7 @@ func NewTransformerMergeFields(
 
 func (tr *TransformerMergeFields) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -323,7 +323,7 @@ func (tr *TransformerMergeFields) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerMergeFields) transformByNameList(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -374,7 +374,7 @@ func (tr *TransformerMergeFields) transformByNameList(
 // ----------------------------------------------------------------
 func (tr *TransformerMergeFields) transformByNameRegex(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -455,7 +455,7 @@ func (tr *TransformerMergeFields) transformByNameRegex(
 
 func (tr *TransformerMergeFields) transformByCollapsing(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

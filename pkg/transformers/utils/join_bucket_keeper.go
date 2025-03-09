@@ -126,7 +126,7 @@ type JoinBucketKeeper struct {
 	// For streaming through the left-side file
 	recordReader  input.IRecordReader
 	context       *types.Context
-	readerChannel <-chan *list.List // list of *types.RecordAndContext
+	readerChannel <-chan []*types.RecordAndContext
 	errorChannel  chan error
 	// TODO: merge with leof flag
 	recordReaderDone bool
@@ -181,7 +181,7 @@ func NewJoinBucketKeeper(
 	initialContext.UpdateForStartOfFile(leftFileName)
 
 	// Set up channels for the record-reader
-	readerChannel := make(chan *list.List, 2) // list of *types.RecordAndContext
+	readerChannel := make(chan []*types.RecordAndContext, 2)
 	errorChannel := make(chan error, 1)
 	downstreamDoneChannel := make(chan bool, 1)
 
@@ -576,8 +576,8 @@ func (keeper *JoinBucketKeeper) readRecord() *types.RecordAndContext {
 		os.Exit(1)
 	case leftrecsAndContexts := <-keeper.readerChannel:
 		// TODO: temp
-		lib.InternalCodingErrorIf(leftrecsAndContexts.Len() != 1)
-		leftrecAndContext := leftrecsAndContexts.Front().Value.(*types.RecordAndContext)
+		lib.InternalCodingErrorIf(len(leftrecsAndContexts) != 1)
+		leftrecAndContext := leftrecsAndContexts[0]
 		leftrecAndContext.Record = KeepLeftFieldNames(leftrecAndContext.Record, keeper.leftKeepFieldNameSet)
 		if leftrecAndContext.EndOfStream { // end-of-stream marker
 			keeper.recordReaderDone = true

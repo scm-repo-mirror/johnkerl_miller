@@ -91,7 +91,7 @@ func NewTransformerLatin1ToUTF8() (*TransformerLatin1ToUTF8, error) {
 
 func (tr *TransformerLatin1ToUTF8) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

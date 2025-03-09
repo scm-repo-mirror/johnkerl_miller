@@ -142,7 +142,7 @@ func NewTransformerUnsparsify(
 
 func (tr *TransformerUnsparsify) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -153,7 +153,7 @@ func (tr *TransformerUnsparsify) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerUnsparsify) transformNonStreaming(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -165,7 +165,7 @@ func (tr *TransformerUnsparsify) transformNonStreaming(
 				tr.fieldNamesSeen.Put(key, key)
 			}
 		}
-		tr.recordsAndContexts.PushBack(inrecAndContext)
+		tr.recordsAndContexts = append(tr.recordsAndContexts, inrecAndContext)
 	} else {
 		for e := tr.recordsAndContexts.Front(); e != nil; e = e.Next() {
 			outrecAndContext := e.Value.(*types.RecordAndContext)
@@ -181,17 +181,21 @@ func (tr *TransformerUnsparsify) transformNonStreaming(
 				}
 			}
 
-			outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &outrecAndContext.Context))
+			outputRecordsAndContexts = append(
+				outputRecordsAndContexts,
+				types.NewRecordAndContext(newrec, &outrecAndContext.Context),
+			)
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		// end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
 // ----------------------------------------------------------------
 func (tr *TransformerUnsparsify) transformStreaming(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -207,6 +211,7 @@ func (tr *TransformerUnsparsify) transformStreaming(
 		outputRecordsAndContexts.PushBack(inrecAndContext)
 
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
+		// end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }

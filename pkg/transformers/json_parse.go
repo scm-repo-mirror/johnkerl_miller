@@ -131,7 +131,7 @@ func NewTransformerJSONParse(
 
 func (tr *TransformerJSONParse) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -142,7 +142,7 @@ func (tr *TransformerJSONParse) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerJSONParse) jsonParseAll(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -164,7 +164,7 @@ func (tr *TransformerJSONParse) jsonParseAll(
 // ----------------------------------------------------------------
 func (tr *TransformerJSONParse) jsonParseSome(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

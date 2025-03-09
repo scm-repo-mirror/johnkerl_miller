@@ -155,7 +155,7 @@ func NewTransformerGrep(
 
 func (tr *TransformerGrep) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

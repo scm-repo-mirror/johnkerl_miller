@@ -231,12 +231,11 @@ func runSingleTransformerBatch(
 	outputDownstreamDoneChannel chan<- bool,
 	options *cli.TOptions,
 ) bool {
-	outputRecordsAndContexts := list.New()
+	// XXX records per batch -- ?
+	outputRecordsAndContexts := make([]*types.RecordAndContext, 100)
 	done := false
 
-	for e := inputRecordsAndContexts.Front(); e != nil; e = e.Next() {
-		inputRecordAndContext := e.Value.(*types.RecordAndContext)
-
+	for _, inputRecordAndContext := range inputRecordsAndContexts {
 		// --nr-progress-mod
 		// TODO: function-pointer this away to reduce instruction count in the
 		// normal case which it isn't used at all. No need to test if {static thing} != 0
@@ -274,7 +273,7 @@ func runSingleTransformerBatch(
 				outputDownstreamDoneChannel,
 			)
 		} else {
-			outputRecordsAndContexts.PushBack(inputRecordAndContext)
+			outputRecordsAndContexts = append(outputRecordsAndContexts, inputRecordAndContext)
 		}
 
 		if inputRecordAndContext.EndOfStream {

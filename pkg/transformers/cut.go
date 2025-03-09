@@ -181,7 +181,7 @@ func NewTransformerCut(
 
 func (tr *TransformerCut) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -193,7 +193,7 @@ func (tr *TransformerCut) Transform(
 // mlr cut -f a,b,c
 func (tr *TransformerCut) includeWithInputOrder(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -218,7 +218,7 @@ func (tr *TransformerCut) includeWithInputOrder(
 // mlr cut -o -f a,b,c
 func (tr *TransformerCut) includeWithArgOrder(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -242,7 +242,7 @@ func (tr *TransformerCut) includeWithArgOrder(
 // mlr cut -x -f a,b,c
 func (tr *TransformerCut) exclude(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -260,7 +260,7 @@ func (tr *TransformerCut) exclude(
 // ----------------------------------------------------------------
 func (tr *TransformerCut) processWithRegexes(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

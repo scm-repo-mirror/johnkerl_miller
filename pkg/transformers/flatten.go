@@ -134,7 +134,7 @@ func NewTransformerFlatten(
 
 func (tr *TransformerFlatten) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -145,7 +145,7 @@ func (tr *TransformerFlatten) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerFlatten) flattenAll(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -165,7 +165,7 @@ func (tr *TransformerFlatten) flattenAll(
 // ----------------------------------------------------------------
 func (tr *TransformerFlatten) flattenSome(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

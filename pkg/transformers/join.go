@@ -361,7 +361,7 @@ func NewTransformerJoin(
 
 func (tr *TransformerJoin) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -375,7 +375,7 @@ func (tr *TransformerJoin) Transform(
 // matching each right record against those.
 func (tr *TransformerJoin) transformHalfStreaming(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -427,7 +427,7 @@ func (tr *TransformerJoin) transformHalfStreaming(
 // ----------------------------------------------------------------
 func (tr *TransformerJoin) transformDoublyStreaming(
 	rightRecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -558,9 +558,9 @@ func (tr *TransformerJoin) ingestLeftFile() {
 // the doubly-streaming/sorted join.
 
 func (tr *TransformerJoin) formAndEmitPairs(
-	leftRecordsAndContexts *list.List,
+	leftRecordsAndContexts []*types.RecordAndContext,
 	rightRecordAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 ) {
 	////fmt.Println("-- pairs start") // VERBOSE
 	// Loop over each to-be-paired-with record from the left file.
@@ -626,7 +626,7 @@ func (tr *TransformerJoin) formAndEmitPairs(
 // in the second category.
 
 func (tr *TransformerJoin) emitLeftUnpairables(
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 ) {
 	// Loop over each to-be-paired-with record from the left file.
 	for pe := tr.leftUnpairableRecordsAndContexts.Front(); pe != nil; pe = pe.Next() {
@@ -636,7 +636,7 @@ func (tr *TransformerJoin) emitLeftUnpairables(
 }
 
 func (tr *TransformerJoin) emitLeftUnpairedBuckets(
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 ) {
 	for pe := tr.leftBucketsByJoinFieldValues.Head; pe != nil; pe = pe.Next {
 		bucket := pe.Value.(*utils.JoinBucket)

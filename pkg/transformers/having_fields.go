@@ -221,7 +221,7 @@ func NewTransformerHavingFields(
 
 func (tr *TransformerHavingFields) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -232,7 +232,7 @@ func (tr *TransformerHavingFields) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerHavingFields) transformHavingFieldsAtLeast(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -256,7 +256,7 @@ func (tr *TransformerHavingFields) transformHavingFieldsAtLeast(
 
 func (tr *TransformerHavingFields) transformHavingFieldsWhichAre(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -278,7 +278,7 @@ func (tr *TransformerHavingFields) transformHavingFieldsWhichAre(
 
 func (tr *TransformerHavingFields) transformHavingFieldsAtMost(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -298,7 +298,7 @@ func (tr *TransformerHavingFields) transformHavingFieldsAtMost(
 // ----------------------------------------------------------------
 func (tr *TransformerHavingFields) transformHavingAllFieldsMatching(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -317,7 +317,7 @@ func (tr *TransformerHavingFields) transformHavingAllFieldsMatching(
 
 func (tr *TransformerHavingFields) transformHavingAnyFieldsMatching(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -336,7 +336,7 @@ func (tr *TransformerHavingFields) transformHavingAnyFieldsMatching(
 
 func (tr *TransformerHavingFields) transformHavingNoFieldsMatching(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

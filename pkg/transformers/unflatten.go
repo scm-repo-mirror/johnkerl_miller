@@ -133,7 +133,7 @@ func NewTransformerUnflatten(
 
 func (tr *TransformerUnflatten) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -144,7 +144,7 @@ func (tr *TransformerUnflatten) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerUnflatten) unflattenAll(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -164,7 +164,7 @@ func (tr *TransformerUnflatten) unflattenAll(
 // ----------------------------------------------------------------
 func (tr *TransformerUnflatten) unflattenSome(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

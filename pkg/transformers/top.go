@@ -174,7 +174,7 @@ func NewTransformerTop(
 
 func (tr *TransformerTop) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -238,7 +238,7 @@ func (tr *TransformerTop) ingest(
 // ----------------------------------------------------------------
 func (tr *TransformerTop) emit(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 ) {
 	for pa := tr.groups.Head; pa != nil; pa = pa.Next {
 		groupingKey := pa.Key

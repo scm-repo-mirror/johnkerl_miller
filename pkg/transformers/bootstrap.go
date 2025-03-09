@@ -91,7 +91,7 @@ func transformerBootstrapParseCLI(
 
 // ----------------------------------------------------------------
 type TransformerBootstrap struct {
-	recordsAndContexts *list.List
+	recordsAndContexts []*types.RecordAndContext
 	nout               int64
 }
 
@@ -107,7 +107,7 @@ func NewTransformerBootstrap(nout int64) (*TransformerBootstrap, error) {
 
 func (tr *TransformerBootstrap) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

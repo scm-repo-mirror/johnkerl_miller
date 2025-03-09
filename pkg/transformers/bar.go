@@ -151,7 +151,7 @@ type TransformerBar struct {
 	oobString          string
 	blankString        string
 	bars               []string
-	recordsForAutoMode *list.List
+	recordsForAutoMode []*types.RecordAndContext
 
 	recordTransformerFunc RecordTransformerFunc
 }
@@ -207,7 +207,7 @@ func NewTransformerBar(
 
 func (tr *TransformerBar) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -218,7 +218,7 @@ func (tr *TransformerBar) Transform(
 // ----------------------------------------------------------------
 func (tr *TransformerBar) processNoAuto(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -244,16 +244,16 @@ func (tr *TransformerBar) processNoAuto(
 			inrec.PutReference(fieldName, mlrval.FromString(tr.bars[idx]))
 		}
 
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	} else {
-		outputRecordsAndContexts.PushBack(inrecAndContext) // emit end-of-stream marker
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // emit end-of-stream marker
 	}
 }
 
 // ----------------------------------------------------------------
 func (tr *TransformerBar) processAuto(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {

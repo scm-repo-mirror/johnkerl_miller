@@ -265,7 +265,7 @@ func NewTransformerStats2(
 
 func (tr *TransformerStats2) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -382,7 +382,7 @@ func (tr *TransformerStats2) ingest(
 
 // ----------------------------------------------------------------
 func (tr *TransformerStats2) emit(
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	context *types.Context,
 ) {
 	for pa := tr.namedAccumulators.Head; pa != nil; pa = pa.Next {
@@ -433,7 +433,7 @@ func (tr *TransformerStats2) populateRecord(
 }
 
 func (tr *TransformerStats2) fit(
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 ) {
 	for pa := tr.namedAccumulators.Head; pa != nil; pa = pa.Next {
 		groupingKey := pa.Key

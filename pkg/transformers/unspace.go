@@ -115,7 +115,7 @@ func NewTransformerUnspace(
 
 func (tr *TransformerUnspace) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -128,13 +128,13 @@ func (tr *TransformerUnspace) Transform(
 			outputDownstreamDoneChannel,
 		)
 	} else { // end of record stream
-		outputRecordsAndContexts.PushBack(inrecAndContext)
+		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext)
 	}
 }
 
 func (tr *TransformerUnspace) transformKeysOnly(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	_ <-chan bool,
 	__ chan<- bool,
 ) {
@@ -145,12 +145,15 @@ func (tr *TransformerUnspace) transformKeysOnly(
 		// Reference not copy since this is ownership transfer of the value from the now-abandoned inrec
 		newrec.PutReference(newkey, pe.Value)
 	}
-	outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &inrecAndContext.Context))
+	outputRecordsAndContexts = append(
+		outputRecordsAndContexts,
+		types.NewRecordAndContext(newrec, &inrecAndContext.Context),
+	)
 }
 
 func (tr *TransformerUnspace) transformValuesOnly(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	_ <-chan bool,
 	__ chan<- bool,
 ) {
@@ -161,12 +164,15 @@ func (tr *TransformerUnspace) transformValuesOnly(
 			pe.Value = mlrval.FromString(tr.unspace(stringval))
 		}
 	}
-	outputRecordsAndContexts.PushBack(types.NewRecordAndContext(inrec, &inrecAndContext.Context))
+	outputRecordsAndContexts = append(
+		outputRecordsAndContexts,
+		types.NewRecordAndContext(inrec, &inrecAndContext.Context),
+	)
 }
 
 func (tr *TransformerUnspace) transformKeysAndValues(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	_ <-chan bool,
 	__ chan<- bool,
 ) {
@@ -182,7 +188,10 @@ func (tr *TransformerUnspace) transformKeysAndValues(
 			newrec.PutReference(newkey, pe.Value)
 		}
 	}
-	outputRecordsAndContexts.PushBack(types.NewRecordAndContext(newrec, &inrecAndContext.Context))
+	outputRecordsAndContexts = append(
+		outputRecordsAndContexts,
+		types.NewRecordAndContext(newrec, &inrecAndContext.Context),
+	)
 }
 
 func (tr *TransformerUnspace) unspace(input string) string {

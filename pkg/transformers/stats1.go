@@ -353,7 +353,7 @@ func NewTransformerStats1(
 // the end-of-stream marker.
 func (tr *TransformerStats1) Transform(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 	inputDownstreamDoneChannel <-chan bool,
 	outputDownstreamDoneChannel chan<- bool,
 ) {
@@ -367,7 +367,7 @@ func (tr *TransformerStats1) Transform(
 
 func (tr *TransformerStats1) handleInputRecord(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 ) {
 	inrec := inrecAndContext.Record
 
@@ -581,7 +581,7 @@ func (tr *TransformerStats1) matchValueFieldName(
 
 func (tr *TransformerStats1) handleEndOfRecordStream(
 	inrecAndContext *types.RecordAndContext,
-	outputRecordsAndContexts *list.List, // list of *types.RecordAndContext
+	outputRecordsAndContexts []*types.RecordAndContext,
 ) {
 	if tr.doIterativeStats {
 		outputRecordsAndContexts.PushBack(inrecAndContext) // end-of-stream marker
