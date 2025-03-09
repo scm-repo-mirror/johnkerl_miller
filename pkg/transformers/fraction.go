@@ -292,7 +292,10 @@ func (tr *TransformerFraction) Transform(
 				}
 			}
 
-			outputRecordsAndContexts.PushBack(types.NewRecordAndContext(outrec, &endOfStreamContext))
+			outputRecordsAndContexts = append(
+				outputRecordsAndContexts,
+				types.NewRecordAndContext(outrec, &endOfStreamContext),
+			)
 		}
 		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker
 	}

@@ -157,7 +157,7 @@ func (tr *TransformerCountSimilar) Transform(
 				recordAndContext := inner.Value.(*types.RecordAndContext)
 				recordAndContext.Record.PutCopy(tr.counterFieldName, mgroupSize)
 
-				outputRecordsAndContexts.PushBack(recordAndContext)
+				outputRecordsAndContexts = append(outputRecordsAndContexts, recordAndContext)
 			}
 		}
 

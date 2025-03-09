@@ -289,7 +289,7 @@ func (keeper *JoinBucketKeeper) FindJoinBucket(
 				}
 
 				// TODO: privatize more
-				if keeper.JoinBucket.RecordsAndContexts.Len() > 0 {
+				if len(keeper.JoinBucket.RecordsAndContexts) > 0 {
 					cmp := compareLexically(
 						keeper.JoinBucket.leftFieldValues,
 						rightFieldValues,

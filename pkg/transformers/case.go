@@ -229,7 +229,10 @@ func (tr *TransformerCase) transformValuesOnly(
 			}
 		}
 	}
-	outputRecordsAndContexts.PushBack(types.NewRecordAndContext(inrec, &inrecAndContext.Context))
+	outputRecordsAndContexts = append(
+		outputRecordsAndContexts,
+		types.NewRecordAndContext(inrec, &inrecAndContext.Context),
+	)
 }
 
 func (tr *TransformerCase) transformKeysAndValues(

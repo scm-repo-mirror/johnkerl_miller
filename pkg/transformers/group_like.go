@@ -115,9 +115,9 @@ func (tr *TransformerGroupLike) Transform(
 
 	} else {
 		for outer := tr.recordListsByGroup.Head; outer != nil; outer = outer.Next {
-			recordListForGroup := outer.Value.(*list.List)
-			for inner := recordListForGroup.Front(); inner != nil; inner = inner.Next() {
-				outputRecordsAndContexts.PushBack(inner.Value.(*types.RecordAndContext))
+			recordListForGroup := outer.Value.([]*types.RecordAndContext)
+			for _, record := range recordListForGroup {
+				outputRecordsAndContexts = append(outputRecordsAndContexts, record)
 			}
 		}
 		outputRecordsAndContexts = append(outputRecordsAndContexts, inrecAndContext) // end-of-stream marker

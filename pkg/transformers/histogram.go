@@ -275,7 +275,10 @@ func (tr *TransformerHistogram) emitNonAuto(
 			)
 		}
 
-		outputRecordsAndContexts.PushBack(types.NewRecordAndContext(outrec, endOfStreamContext))
+		outputRecordsAndContexts = append(
+			outputRecordsAndContexts,
+			types.NewRecordAndContext(outrec, endOfStreamContext),
+		)
 	}
 }
 
@@ -381,6 +384,9 @@ func (tr *TransformerHistogram) emitAuto(
 			)
 		}
 
-		outputRecordsAndContexts.PushBack(types.NewRecordAndContext(outrec, endOfStreamContext))
+		outputRecordsAndContexts = append(
+			outputRecordsAndContexts,
+			types.NewRecordAndContext(outrec, endOfStreamContext),
+		)
 	}
 }
