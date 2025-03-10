@@ -80,7 +80,7 @@ func transformerShuffleParseCLI(
 
 // ----------------------------------------------------------------
 type TransformerShuffle struct {
-	recordsAndContexts *list.List
+	recordsAndContexts *types.List[*types.RecordAndContext]
 }
 
 func NewTransformerShuffle() (*TransformerShuffle, error) {

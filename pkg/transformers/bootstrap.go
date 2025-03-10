@@ -90,7 +90,7 @@ func transformerBootstrapParseCLI(
 
 // ----------------------------------------------------------------
 type TransformerBootstrap struct {
-	recordsAndContexts *list.List
+	recordsAndContexts *types.List[*types.RecordAndContext]
 	nout               int64
 }
 
@@ -140,7 +140,6 @@ func (tr *TransformerBootstrap) Transform(
 	//
 	// For that reason, this transformer must copy all output.
 
-	// TODO: Go list Len() maxes at 2^31. We should track this ourselves in an int.
 	nin := int64(tr.recordsAndContexts.Len())
 	nout := tr.nout
 	if nout == -1 {

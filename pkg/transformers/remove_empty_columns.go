@@ -77,7 +77,7 @@ func transformerRemoveEmptyColumnsParseCLI(
 
 // ----------------------------------------------------------------
 type TransformerRemoveEmptyColumns struct {
-	recordsAndContexts      *list.List
+	recordsAndContexts      *types.List[*types.RecordAndContext]
 	namesWithNonEmptyValues map[string]bool
 }
 

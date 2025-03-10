@@ -305,7 +305,7 @@ type TransformerSort struct {
 	comparatorFuncs   []mlrval.CmpFuncInt
 
 	// -- State
-	// Map from string to *list.List:
+	// Map from string to *types.List[*types.RecordAndContext]
 	recordListsByGroup *lib.OrderedMap
 	// Map from string to []*lib.Mlrval:
 	groupHeads *lib.OrderedMap

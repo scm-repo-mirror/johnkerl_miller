@@ -131,7 +131,7 @@ type TransformerFraction struct {
 	groupByFieldNames  []string
 	doCumu             bool
 
-	recordsAndContexts *list.List
+	recordsAndContexts *types.List[*types.RecordAndContext]
 	// Two-level map: Group-by field names are the first keyset;
 	// fraction field names are keys into the second.
 	sums  map[string]map[string]*mlrval.Mlrval

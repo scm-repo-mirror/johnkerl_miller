@@ -295,7 +295,7 @@ type TransformerJoin struct {
 	// For unsorted/half-streaming input
 	ingested                         bool
 	leftBucketsByJoinFieldValues     *lib.OrderedMap
-	leftUnpairableRecordsAndContexts *list.List
+	leftUnpairableRecordsAndContexts *types.List[*types.RecordAndContext]
 
 	// For sorted/doubly-streaming input
 	joinBucketKeeper *utils.JoinBucketKeeper
@@ -557,7 +557,7 @@ func (tr *TransformerJoin) ingestLeftFile() {
 // the doubly-streaming/sorted join.
 
 func (tr *TransformerJoin) formAndEmitPairs(
-	leftRecordsAndContexts *list.List,
+	leftRecordsAndContexts *types.List[*types.RecordAndContext],
 	rightRecordAndContext *types.RecordAndContext,
 	outputRecordsAndContexts *types.List[*types.RecordAndContext],
 ) {

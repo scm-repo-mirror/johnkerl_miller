@@ -76,7 +76,7 @@ func transformerTacParseCLI(
 
 // ----------------------------------------------------------------
 type TransformerTac struct {
-	recordsAndContexts *list.List
+	recordsAndContexts *types.List[*types.RecordAndContext]
 }
 
 func NewTransformerTac() (*TransformerTac, error) {

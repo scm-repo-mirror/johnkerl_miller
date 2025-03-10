@@ -91,7 +91,7 @@ type TransformerGroupBy struct {
 	groupByFieldNames []string
 
 	// state
-	// map from string to *list.List
+	// map from string to *types.List[*types.RecordAndContext]
 	recordListsByGroup *lib.OrderedMap
 }
 
@@ -131,11 +131,11 @@ func (tr *TransformerGroupBy) Transform(
 			tr.recordListsByGroup.Put(groupingKey, recordListForGroup)
 		}
 
-		recordListForGroup.(*list.List).PushBack(inrecAndContext)
+		recordListForGroup.(*types.List[*types.RecordAndContext]).PushBack(inrecAndContext)
 
 	} else {
 		for outer := tr.recordListsByGroup.Head; outer != nil; outer = outer.Next {
-			recordListForGroup := outer.Value.(*list.List)
+			recordListForGroup := outer.Value.(*types.List[*types.RecordAndContext])
 			for inner := recordListForGroup.Front(); inner != nil; inner = inner.Next() {
 				outputRecordsAndContexts.PushBack(inner.Value.(*types.RecordAndContext))
 			}

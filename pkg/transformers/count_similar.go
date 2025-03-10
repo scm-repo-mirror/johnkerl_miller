@@ -104,7 +104,7 @@ type TransformerCountSimilar struct {
 	counterFieldName  string
 
 	// State:
-	recordListsByGroup *lib.OrderedMap // map from string to *list.List
+	recordListsByGroup *lib.OrderedMap // map from string to *types.List[*types.RecordAndContext]
 }
 
 // ----------------------------------------------------------------
@@ -142,13 +142,13 @@ func (tr *TransformerCountSimilar) Transform(
 			irecordListForGroup = list.New()
 			tr.recordListsByGroup.Put(groupingKey, irecordListForGroup)
 		}
-		recordListForGroup := irecordListForGroup.(*list.List)
+		recordListForGroup := irecordListForGroup.(*types.List[*types.RecordAndContext])
 
 		recordListForGroup.PushBack(inrecAndContext)
 	} else {
 
 		for outer := tr.recordListsByGroup.Head; outer != nil; outer = outer.Next {
-			recordListForGroup := outer.Value.(*list.List)
+			recordListForGroup := outer.Value.(*types.List[*types.RecordAndContext])
 			// TODO: make 64-bit friendly
 			groupSize := recordListForGroup.Len()
 			mgroupSize := mlrval.FromInt(int64(groupSize))

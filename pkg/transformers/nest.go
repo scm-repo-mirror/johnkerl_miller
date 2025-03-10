@@ -601,12 +601,12 @@ func (tr *TransformerNest) implodeValueAcrossRecords(
 
 type tNestBucket struct {
 	representative *mlrval.Mlrmap
-	pairs          *list.List
+	pairs          *types.List[*mlrval.Mlrmap]
 }
 
 func newNestBucket(representative *mlrval.Mlrmap) *tNestBucket {
 	return &tNestBucket{
 		representative: representative,
-		pairs:          list.New(),
+		pairs:          *types.NewList[*types.RecordAndContext](100), // XXX size
 	}
 }

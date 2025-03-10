@@ -107,7 +107,7 @@ func transformerUnsparsifyParseCLI(
 // ----------------------------------------------------------------
 type TransformerUnsparsify struct {
 	fillerMlrval          *mlrval.Mlrval
-	recordsAndContexts    *list.List
+	recordsAndContexts    *types.List[*types.RecordAndContext]
 	fieldNamesSeen        *lib.OrderedMap
 	recordTransformerFunc RecordTransformerFunc
 }

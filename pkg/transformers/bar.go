@@ -150,7 +150,7 @@ type TransformerBar struct {
 	oobString          string
 	blankString        string
 	bars               []string
-	recordsForAutoMode *list.List
+	recordsForAutoMode *types.List[*types.RecordAndContext]
 
 	recordTransformerFunc RecordTransformerFunc
 }
