@@ -150,7 +150,7 @@ func NewTransformerFraction(
 	doCumu bool,
 ) (*TransformerFraction, error) {
 
-	recordsAndContexts := list.New()
+	recordsAndContexts := types.NewList[*types.RecordAndContext](100) // XXX SIZE
 	sums := make(map[string]map[string]*mlrval.Mlrval)
 	cumus := make(map[string]map[string]*mlrval.Mlrval)
 

@@ -134,7 +134,7 @@ type tRegexAndReplacement struct {
 
 type TransformerRename struct {
 	oldToNewNames          *lib.OrderedMap
-	regexesAndReplacements *list.List
+	regexesAndReplacements *types.List[*tRegexAndReplacement]
 	doGsub                 bool
 	recordTransformerFunc  RecordTransformerFunc
 }
@@ -163,7 +163,7 @@ func NewTransformerRename(
 		tr.doGsub = false
 		tr.recordTransformerFunc = tr.transformWithoutRegexes
 	} else {
-		tr.regexesAndReplacements = list.New()
+		tr.regexesAndReplacements = types.NewList[*tRegexAndReplacement](10)
 		for pe := oldToNewNames.Head; pe != nil; pe = pe.Next {
 			regexString := pe.Key
 			regex := lib.CompileMillerRegexOrDie(regexString)

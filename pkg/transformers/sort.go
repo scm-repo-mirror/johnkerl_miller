@@ -309,7 +309,8 @@ type TransformerSort struct {
 	recordListsByGroup *lib.OrderedMap
 	// Map from string to []*lib.Mlrval:
 	groupHeads *lib.OrderedMap
-	spillGroup *list.List // e.g. sort by field "a" -- this is for records lacking a field named "a"
+	// E.g. for sort by field "a", this is for records lacking a field named "a"
+	spillGroup *types.List[*types.RecordAndContext]
 }
 
 func NewTransformerSort(
