@@ -66,7 +66,9 @@ func (mv *Mlrval) setPrintRep() {
 			mv.printrep = "(bug-if-you-see-this:case=3)" // xxx constdef at top of file
 
 		case MT_ERROR:
-			mv.printrep = "(error)" // xxx constdef at top of file
+			//mv.printrep = "(error)" // xxx constdef at top of file
+			// XXX
+			mv.printrep = fmt.Sprintf("(error: %s", mv.err.Error())
 
 		case MT_ABSENT:
 			// Callsites should be using absence to do non-assigns, so flag

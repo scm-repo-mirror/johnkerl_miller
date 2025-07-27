@@ -36,7 +36,9 @@ func FromError(err error) *Mlrval {
 	return &Mlrval{
 		mvtype:        MT_ERROR,
 		err:           err,
-		printrep:      ERROR_PRINTREP,
+		//printrep:      ERROR_PRINTREP,
+		// XXX
+		printrep:      fmt.Sprintf("(error: %s)", err.Error()),
 		printrepValid: true,
 	}
 }
@@ -45,7 +47,7 @@ func FromErrorString(err string) *Mlrval {
 	return &Mlrval{
 		mvtype:        MT_ERROR,
 		err:           errors.New(err),
-		printrep:      ERROR_PRINTREP,
+		printrep:      err,
 		printrepValid: true,
 	}
 }
