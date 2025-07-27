@@ -2,4 +2,4 @@
 TZ is America/Sao_Paulo
 ---------------------------------------------------------------- LOCALTIME2SEC
 10800.00000000
-(error)
+(error: date format mismatch)

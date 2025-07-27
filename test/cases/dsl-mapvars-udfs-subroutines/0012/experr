@@ -1,1 +1,1 @@
-mlr: couldn't assign variable var b from value error (error)
+mlr: couldn't assign variable var b from value error (error: cannot index base value 1 of type int, which is not array, map, or string)

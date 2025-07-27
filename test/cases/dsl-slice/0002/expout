@@ -15,7 +15,10 @@
   "ax9": [1, 2, 3, 4, 5, 6, 7]
 },
 {
-  "mx1": (error)
+  "mx1": (error: cannot slice base value {
+  "a": 1,
+  "b": 2
+} with non-array type map)
 },
 {
   "sx0": ""

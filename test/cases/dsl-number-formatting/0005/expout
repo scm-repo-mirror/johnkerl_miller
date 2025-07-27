@@ -1,11 +1,11 @@
-a       b       i           x          y
-(error) (error) 1.00000000  0.34680000 0.72680000
-(error) (error) 2.00000000  0.75870000 -0.52220000
-(error) (error) 3.00000000  0.20460000 0.33830000
-(error) (error) 4.00000000  0.38140000 -0.13420000
-(error) (error) 5.00000000  0.57330000 0.86360000
-(error) (error) 6.00000000  0.52710000 -0.49320000
-(error) (error) 7.00000000  0.61180000 0.18790000
-(error) (error) 8.00000000  0.59860000 0.97620000
-(error) (error) 9.00000000  0.03144000 -0.74960000
-(error) (error) 10.00000000 0.50260000 0.95260000
+a                                                                             b                                                                             i           x          y
+(error: fmtnum: unacceptable types string, string with values "pan", "%8.3e") (error: fmtnum: unacceptable types string, string with values "pan", "%8.3e") 1.00000000  0.34680000 0.72680000
+(error: fmtnum: unacceptable types string, string with values "eks", "%8.3e") (error: fmtnum: unacceptable types string, string with values "pan", "%8.3e") 2.00000000  0.75870000 -0.52220000
+(error: fmtnum: unacceptable types string, string with values "wye", "%8.3e") (error: fmtnum: unacceptable types string, string with values "wye", "%8.3e") 3.00000000  0.20460000 0.33830000
+(error: fmtnum: unacceptable types string, string with values "eks", "%8.3e") (error: fmtnum: unacceptable types string, string with values "wye", "%8.3e") 4.00000000  0.38140000 -0.13420000
+(error: fmtnum: unacceptable types string, string with values "wye", "%8.3e") (error: fmtnum: unacceptable types string, string with values "pan", "%8.3e") 5.00000000  0.57330000 0.86360000
+(error: fmtnum: unacceptable types string, string with values "zee", "%8.3e") (error: fmtnum: unacceptable types string, string with values "pan", "%8.3e") 6.00000000  0.52710000 -0.49320000
+(error: fmtnum: unacceptable types string, string with values "eks", "%8.3e") (error: fmtnum: unacceptable types string, string with values "zee", "%8.3e") 7.00000000  0.61180000 0.18790000
+(error: fmtnum: unacceptable types string, string with values "zee", "%8.3e") (error: fmtnum: unacceptable types string, string with values "wye", "%8.3e") 8.00000000  0.59860000 0.97620000
+(error: fmtnum: unacceptable types string, string with values "hat", "%8.3e") (error: fmtnum: unacceptable types string, string with values "wye", "%8.3e") 9.00000000  0.03144000 -0.74960000
+(error: fmtnum: unacceptable types string, string with values "pan", "%8.3e") (error: fmtnum: unacceptable types string, string with values "wye", "%8.3e") 10.00000000 0.50260000 0.95260000

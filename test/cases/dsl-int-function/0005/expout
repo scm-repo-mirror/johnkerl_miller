@@ -1,4 +1,4 @@
-345 (error)
-ff (error)
-0377 (error)
+345 (error: +: unacceptable types error, int with values (error: int: unacceptable value "345" with type string), 0)
+ff (error: +: unacceptable types error, int with values (error: int: unacceptable value "ff" with type string), 0)
+0377 (error: +: unacceptable types error, int with values (error: int: unacceptable value "0377" with type string), 0)
 11010011 211

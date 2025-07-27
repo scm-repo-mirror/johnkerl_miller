@@ -7,8 +7,8 @@ y Victor jagt zw�lf Boxk�mpfer quer �ber den gro�en Sylter Deich.
 z Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.
 
 x Съешь же ещё этих мягких французских булок да выпей чаю.
-y (error)
-z (error)
+y (error: character 0x00000421 (1057) is not encodable as Latin-1)
+z (error: character 0x00000421 (1057) is not encodable as Latin-1)
 
 x This¹ is² it³.
 y This� is� it�.

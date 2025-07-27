@@ -2,6 +2,6 @@ x The quick brown fox jumped over the lazy dogs.
 
 x Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.
 
-x (error)
+x (error: character 0x00000421 (1057) is not encodable as Latin-1)
 
 x This¹ is² it³.

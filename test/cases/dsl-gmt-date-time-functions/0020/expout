@@ -6,5 +6,5 @@
 31276800.00000000
 80430.00000000
 138000.00000000
-(error)
+(error: date format contains unsupported percent-encodings)
 31536000.12345600

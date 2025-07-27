@@ -22,5 +22,5 @@ n  sec                 gmt
 21 2000000000.99999905 2033-05-18T03:33:20.999Z
 22 2000000001.00000000 2033-05-18T03:33:21.000Z
 23 -                   -
-24 x                   (error)
-25 123x                (error)
+24 x                   (error: strftime: unacceptable value "x" with type string; needed type int or float)
+25 123x                (error: strftime: unacceptable value "123x" with type string; needed type int or float)

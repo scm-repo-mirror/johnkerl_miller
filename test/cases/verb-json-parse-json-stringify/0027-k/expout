@@ -6,7 +6,7 @@
 },
 {
   "foo": "ts",
-  "bar": (error),
+  "bar": (error: invalid character 'k'),
   "baz": 10
 },
 {

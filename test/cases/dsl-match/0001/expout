@@ -6,6 +6,6 @@
 {"x": "", "y": "", "z": true}
 {"x": "", "y": "b", "z": false}
 {"x": "a", "y": "", "z": true}
-{"x": "a", "z": (error)}
-{"y": "b", "z": (error)}
-{"foo": "bar", "z": (error)}
+{"x": "a", "z": (error: strmatch: unacceptable value (absent) with type absent; needed type string)}
+{"y": "b", "z": (error: strmatch: unacceptable value (absent) with type absent; needed type string)}
+{"foo": "bar", "z": (error: strmatch: unacceptable value (absent) with type absent; needed type string)}

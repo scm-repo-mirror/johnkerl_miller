@@ -21,6 +21,6 @@ n,sec,gmt
 20,2000000000.99900007,2033-05-18T03:33:20.999000Z
 21,2000000000.99999905,2033-05-18T03:33:20.999999Z
 22,2000000001.00000000,2033-05-18T03:33:21.000000Z
-23,,(error)
-24,x,(error)
-25,123x,(error)
+23,,(error: sec2gmt: unacceptable value "" with type empty; needed type int or float)
+24,x,(error: sec2gmt: unacceptable value "x" with type string; needed type int or float)
+25,123x,(error: sec2gmt: unacceptable value "123x" with type string; needed type int or float)

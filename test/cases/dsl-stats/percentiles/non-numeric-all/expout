@@ -17,18 +17,18 @@
     "100": "zee"
   },
   "a_psi": {
-    "0": (error),
-    "1": (error),
-    "10": (error),
-    "25": (error),
-    "50": (error),
-    "75": (error),
-    "90": (error),
-    "99": (error),
+    "0": (error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.000000, (error: -: unacceptable types string, string with values "eks", "eks"))),
+    "1": (error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.990000, (error: -: unacceptable types string, string with values "eks", "eks"))),
+    "10": (error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.900000, (error: -: unacceptable types string, string with values "eks", "eks"))),
+    "25": (error: +: unacceptable types string, error with values "hat", (error: *: unacceptable types float, error with values 0.750000, (error: -: unacceptable types string, string with values "hat", "hat"))),
+    "50": (error: +: unacceptable types string, error with values "pan", (error: *: unacceptable types float, error with values 0.500000, (error: -: unacceptable types string, string with values "pan", "pan"))),
+    "75": (error: +: unacceptable types string, error with values "wye", (error: *: unacceptable types float, error with values 0.250000, (error: -: unacceptable types string, string with values "wye", "wye"))),
+    "90": (error: +: unacceptable types string, error with values "zee", (error: *: unacceptable types float, error with values 0.100000, (error: -: unacceptable types string, string with values "zee", "zee"))),
+    "99": (error: +: unacceptable types string, error with values "zee", (error: *: unacceptable types float, error with values 0.010000, (error: -: unacceptable types string, string with values "zee", "zee"))),
     "100": "zee"
   },
   "a_psa": ["eks", "eks", "eks", "hat", "pan", "wye", "zee", "zee", "zee"],
-  "a_psia": [(error), (error), (error), (error), (error), (error), (error), (error), "zee"],
+  "a_psia": [(error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.000000, (error: -: unacceptable types string, string with values "eks", "eks"))), (error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.990000, (error: -: unacceptable types string, string with values "eks", "eks"))), (error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.900000, (error: -: unacceptable types string, string with values "eks", "eks"))), (error: +: unacceptable types string, error with values "hat", (error: *: unacceptable types float, error with values 0.750000, (error: -: unacceptable types string, string with values "hat", "hat"))), (error: +: unacceptable types string, error with values "pan", (error: *: unacceptable types float, error with values 0.500000, (error: -: unacceptable types string, string with values "pan", "pan"))), (error: +: unacceptable types string, error with values "wye", (error: *: unacceptable types float, error with values 0.250000, (error: -: unacceptable types string, string with values "wye", "wye"))), (error: +: unacceptable types string, error with values "zee", (error: *: unacceptable types float, error with values 0.100000, (error: -: unacceptable types string, string with values "zee", "zee"))), (error: +: unacceptable types string, error with values "zee", (error: *: unacceptable types float, error with values 0.010000, (error: -: unacceptable types string, string with values "zee", "zee"))), "zee"],
   "m_min": "eks",
   "m_max": "zee",
   "m_minlen": 3,
@@ -46,17 +46,17 @@
     "100": "zee"
   },
   "m_psi": {
-    "0": (error),
-    "1": (error),
-    "10": (error),
-    "25": (error),
-    "50": (error),
-    "75": (error),
-    "90": (error),
-    "99": (error),
+    "0": (error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.000000, (error: -: unacceptable types string, string with values "eks", "eks"))),
+    "1": (error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.990000, (error: -: unacceptable types string, string with values "eks", "eks"))),
+    "10": (error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.900000, (error: -: unacceptable types string, string with values "eks", "eks"))),
+    "25": (error: +: unacceptable types string, error with values "hat", (error: *: unacceptable types float, error with values 0.750000, (error: -: unacceptable types string, string with values "hat", "hat"))),
+    "50": (error: +: unacceptable types string, error with values "pan", (error: *: unacceptable types float, error with values 0.500000, (error: -: unacceptable types string, string with values "pan", "pan"))),
+    "75": (error: +: unacceptable types string, error with values "wye", (error: *: unacceptable types float, error with values 0.250000, (error: -: unacceptable types string, string with values "wye", "wye"))),
+    "90": (error: +: unacceptable types string, error with values "zee", (error: *: unacceptable types float, error with values 0.100000, (error: -: unacceptable types string, string with values "zee", "zee"))),
+    "99": (error: +: unacceptable types string, error with values "zee", (error: *: unacceptable types float, error with values 0.010000, (error: -: unacceptable types string, string with values "zee", "zee"))),
     "100": "zee"
   },
   "m_psa": ["eks", "eks", "eks", "hat", "pan", "wye", "zee", "zee", "zee"],
-  "m_psia": [(error), (error), (error), (error), (error), (error), (error), (error), "zee"]
+  "m_psia": [(error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.000000, (error: -: unacceptable types string, string with values "eks", "eks"))), (error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.990000, (error: -: unacceptable types string, string with values "eks", "eks"))), (error: +: unacceptable types string, error with values "eks", (error: *: unacceptable types float, error with values 0.900000, (error: -: unacceptable types string, string with values "eks", "eks"))), (error: +: unacceptable types string, error with values "hat", (error: *: unacceptable types float, error with values 0.750000, (error: -: unacceptable types string, string with values "hat", "hat"))), (error: +: unacceptable types string, error with values "pan", (error: *: unacceptable types float, error with values 0.500000, (error: -: unacceptable types string, string with values "pan", "pan"))), (error: +: unacceptable types string, error with values "wye", (error: *: unacceptable types float, error with values 0.250000, (error: -: unacceptable types string, string with values "wye", "wye"))), (error: +: unacceptable types string, error with values "zee", (error: *: unacceptable types float, error with values 0.100000, (error: -: unacceptable types string, string with values "zee", "zee"))), (error: +: unacceptable types string, error with values "zee", (error: *: unacceptable types float, error with values 0.010000, (error: -: unacceptable types string, string with values "zee", "zee"))), "zee"]
 }
 ]

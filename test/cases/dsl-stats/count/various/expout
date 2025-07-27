@@ -1,6 +1,6 @@
-count_0                 (error)
+count_0                 (error: count: unacceptable value 0 with type int; needed type array or map)
 count_0_type            error
-count_null              (error)
+count_null              (error: count: unacceptable value null with type null; needed type array or map)
 count_null_type         error
 count_empty_array       0
 count_empty_array_type  int

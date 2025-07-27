@@ -1,6 +1,6 @@
 [
 {
-  "a": (error),
+  "a": (error: cannot index base value (error: cannot index base value 2 of type int, which is not array, map, or string) of type error, which is not array, map, or string),
   "b": "c"
 }
 ]

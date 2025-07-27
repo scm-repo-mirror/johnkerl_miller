@@ -1,6 +1,6 @@
-distinct_count_0                 (error)
+distinct_count_0                 (error: distinct_count: unacceptable value 0 with type int; needed type array or map)
 distinct_count_0_type            error
-distinct_count_null              (error)
+distinct_count_null              (error: distinct_count: unacceptable value null with type null; needed type array or map)
 distinct_count_null_type         error
 distinct_count_empty_array       0
 distinct_count_empty_array_type  int

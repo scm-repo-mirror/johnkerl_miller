@@ -4,15 +4,15 @@
   "y": 4,
   "z": 5,
   "a0": 6,
-  "a1": (error),
-  "a2": (error),
-  "a3": (error),
+  "a1": (error: cannot index base value 6 of type int, which is not array, map, or string),
+  "a2": (error: cannot index base value (error: cannot index base value 6 of type int, which is not array, map, or string) of type error, which is not array, map, or string),
+  "a3": (error: cannot index base value (error: cannot index base value (error: cannot index base value 6 of type int, which is not array, map, or string) of type error, which is not array, map, or string) of type error, which is not array, map, or string),
   "b0": {
     "3": 7
   },
   "b1": 7,
-  "b2": (error),
-  "b3": (error),
+  "b2": (error: cannot index base value 7 of type int, which is not array, map, or string),
+  "b3": (error: cannot index base value (error: cannot index base value 7 of type int, which is not array, map, or string) of type error, which is not array, map, or string),
   "c0": {
     "3": {
       "4": 8
@@ -22,7 +22,7 @@
     "4": 8
   },
   "c2": 8,
-  "c3": (error),
+  "c3": (error: cannot index base value 8 of type int, which is not array, map, or string),
   "d0": {
     "3": {
       "4": {

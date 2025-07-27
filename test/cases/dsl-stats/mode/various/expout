@@ -1,6 +1,6 @@
-mode_0                 (error)
+mode_0                 (error: mode: unacceptable value 0 with type int; needed type array or map)
 mode_0_type            error
-mode_null              (error)
+mode_null              (error: mode: unacceptable value null with type null; needed type array or map)
 mode_null_type         error
 mode_empty_array       
 mode_empty_array_type  empty

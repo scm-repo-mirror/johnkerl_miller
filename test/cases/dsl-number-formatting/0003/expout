@@ -1,11 +1,11 @@
-a       b   i  x          y
-(error) pan 1  0.34680000 0.72680286
-(error) pan 2  0.75870000 -0.52215111
-(error) wye 3  0.20460000 0.33831853
-(error) wye 4  0.38140000 -0.13418874
-(error) pan 5  0.57330000 0.86362447
-(error) pan 6  0.52710000 -0.49322129
-(error) zee 7  0.61180000 0.18788492
-(error) wye 8  0.59860000 0.97618139
-(error) wye 9  0.03144000 -0.74955076
-(error) wye 10 0.50260000 0.95261836
+a                                                                             b   i  x          y
+(error: fmtnum: unacceptable types string, string with values "pan", "%8.3e") pan 1  0.34680000 0.72680286
+(error: fmtnum: unacceptable types string, string with values "eks", "%8.3e") pan 2  0.75870000 -0.52215111
+(error: fmtnum: unacceptable types string, string with values "wye", "%8.3e") wye 3  0.20460000 0.33831853
+(error: fmtnum: unacceptable types string, string with values "eks", "%8.3e") wye 4  0.38140000 -0.13418874
+(error: fmtnum: unacceptable types string, string with values "wye", "%8.3e") pan 5  0.57330000 0.86362447
+(error: fmtnum: unacceptable types string, string with values "zee", "%8.3e") pan 6  0.52710000 -0.49322129
+(error: fmtnum: unacceptable types string, string with values "eks", "%8.3e") zee 7  0.61180000 0.18788492
+(error: fmtnum: unacceptable types string, string with values "zee", "%8.3e") wye 8  0.59860000 0.97618139
+(error: fmtnum: unacceptable types string, string with values "hat", "%8.3e") wye 9  0.03144000 -0.74955076
+(error: fmtnum: unacceptable types string, string with values "pan", "%8.3e") wye 10 0.50260000 0.95261836

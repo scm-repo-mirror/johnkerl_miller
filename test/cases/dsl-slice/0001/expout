@@ -21,7 +21,10 @@
   "a93": []
 },
 {
-  "m11": (error)
+  "m11": (error: cannot slice base value {
+  "a": 1,
+  "b": 2
+} with non-array type map)
 },
 {
   "s35": "cde"

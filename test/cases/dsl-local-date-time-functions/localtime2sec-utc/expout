@@ -2,4 +2,4 @@
 TZ is UTC
 ---------------------------------------------------------------- LOCALTIME2SEC
 0.00000000
-(error)
+(error: date format mismatch)

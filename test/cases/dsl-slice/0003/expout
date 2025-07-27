@@ -15,7 +15,10 @@
   "a9x": []
 },
 {
-  "m1x": (error)
+  "m1x": (error: cannot slice base value {
+  "a": 1,
+  "b": 2
+} with non-array type map)
 },
 {
   "s0x": "abcdefg"

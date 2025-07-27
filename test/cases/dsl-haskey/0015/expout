@@ -3,8 +3,8 @@ b    pan
 i    1
 x    0.34679014
 y    0.72680286
-hk01 (error)
-hk02 (error)
+hk01 (error: haskey: unacceptable value 0.34679014 with type float; needed type array or map)
+hk02 (error: haskey: unacceptable value (absent) with type absent; needed type array or map)
 hk03 false
 hk04 true
 hk05 false

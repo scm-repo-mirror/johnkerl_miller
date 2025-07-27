@@ -1,1 +1,1 @@
-(error)
+(error: unformat("12m34s", "{}:{}"): component "{}:{}" lacks prefix "12m34s")

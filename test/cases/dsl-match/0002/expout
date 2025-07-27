@@ -84,15 +84,15 @@
 },
 {
   "x": "a",
-  "z": (error)
+  "z": (error: strmatchx: unacceptable value (absent) with type absent; needed type string)
 },
 {
   "y": "b",
-  "z": (error)
+  "z": (error: strmatchx: unacceptable value (absent) with type absent; needed type string)
 },
 {
   "foo": "bar",
-  "z": (error)
+  "z": (error: strmatchx: unacceptable value (absent) with type absent; needed type string)
 },
 {
   "x": "1234567890abcdefghij",

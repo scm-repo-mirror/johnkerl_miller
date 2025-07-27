@@ -1,14 +1,14 @@
-t      a          string     int     float      boolean
-string abc        abc        (error) (error)    (error)
-int    0          0          0       0.00000000 false
-int    2          2          2       2.00000000 true
-float  0.00000000 0.00000000 0       0.00000000 false
-float  2.30000000 2.30000000 2       2.30000000 true
-bool   false      false      0       0.00000000 false
-bool   true       true       1       1.00000000 true
-string 0          0          0       0.00000000 (error)
-string 2          2          2       2.00000000 (error)
-string 0.0        0.0        (error) 0.00000000 (error)
-string 2.3        2.3        (error) 2.30000000 (error)
-string false      false      (error) (error)    false
-string true       true       (error) (error)    true
+t      a          string     int                                                       float                                                       boolean
+string abc        abc        (error: int: unacceptable value "abc" with type string)   (error: float: unacceptable value "abc" with type string)   (error: boolean: unacceptable value "abc" with type string)
+int    0          0          0                                                         0.00000000                                                  false
+int    2          2          2                                                         2.00000000                                                  true
+float  0.00000000 0.00000000 0                                                         0.00000000                                                  false
+float  2.30000000 2.30000000 2                                                         2.30000000                                                  true
+bool   false      false      0                                                         0.00000000                                                  false
+bool   true       true       1                                                         1.00000000                                                  true
+string 0          0          0                                                         0.00000000                                                  (error: boolean: unacceptable value "0" with type string)
+string 2          2          2                                                         2.00000000                                                  (error: boolean: unacceptable value "2" with type string)
+string 0.0        0.0        (error: int: unacceptable value "0.0" with type string)   0.00000000                                                  (error: boolean: unacceptable value "0.0" with type string)
+string 2.3        2.3        (error: int: unacceptable value "2.3" with type string)   2.30000000                                                  (error: boolean: unacceptable value "2.3" with type string)
+string false      false      (error: int: unacceptable value "false" with type string) (error: float: unacceptable value "false" with type string) false
+string true       true       (error: int: unacceptable value "true" with type string)  (error: float: unacceptable value "true" with type string)  true
